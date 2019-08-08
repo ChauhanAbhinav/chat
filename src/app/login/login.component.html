@@ -1,0 +1,28 @@
+<mat-toolbar >
+        <span class="center" >Login</span>
+</mat-toolbar>
+     <mat-card class="my-card card-center">
+                <form class="my-form" [formGroup]="form" (ngSubmit)="onSubmit()">   
+        <mat-card-content>
+                         <table class="example-full-width" cellspacing="0" class="center">
+                                <tr>
+                                  <td>
+                                    <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Enter Mobile" formControlName="mobile"
+                                    type="number"  name="mobile" (keypress)="errorCheck()"> 
+                                    </mat-form-field>
+                                  </td>
+                                </tr>
+                                <tr>
+                                        <td>
+                                                <mat-error *ngIf=""></mat-error>
+                                        </td>
+                                </tr>
+                         
+                            </table>
+        </mat-card-content>
+        <mat-card-actions class="text-center">
+                <button mat-raised-button   color="primary" type="submit">Submit</button>
+        </mat-card-actions>
+                </form>
+     </mat-card>
