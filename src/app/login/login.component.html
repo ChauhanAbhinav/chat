@@ -9,16 +9,15 @@
                                   <td>
                                     <mat-form-field class="example-full-width">
                                     <input matInput placeholder="Enter Mobile" formControlName="mobile"
-                                    type="number"  name="mobile" (keypress)="errorCheck()"> 
+                                    type="number"  name="mobile" > 
                                     </mat-form-field>
                                   </td>
                                 </tr>
                                 <tr>
                                         <td>
-                                                <mat-error *ngIf=""></mat-error>
+                                                <mat-error *ngIf="!formValidator()">Invalid Fields</mat-error>
                                         </td>
                                 </tr>
-                         
                             </table>
         </mat-card-content>
         <mat-card-actions class="text-center">
