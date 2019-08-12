@@ -1,32 +1,51 @@
 // import db module
-let db = require('../dbUtil');
-console.log(db());
+let mongo = require('../dbUtil');
+let coll;
+mongo.connect((err, db)=>{
+  if(err) {
+    console.log(err);
+    throw err;
+}
+coll = db.collection('users');
+});
+
+// user services
+// var Promise = require('promise');
 let service = {};
-// let coll = db.collection('users');
 
 let  ifRegistered = (user)=>{
-    coll.find({user}).toArray(function(err, data) {
-        if (err) {
-         console.log(err);
-         return false;
-        } 
-        else {
-        console.log('user is registered');
-        return true;
-        }
-      });
-}
-let  createUser = ()=>{
-    coll.insert(user,function(err, data) {
-        if (err) {
-         console.log(err);
-         return false;
-        } 
-        else {
-        console.log('user inserted');
-        return true;  
+
+  return new Promise((resolve, reject)=>{
+
+    coll.find({mobile: user.mobile}).toArray(function(err, data) {
+    if (err) 
+      reject(err);
+     else {
+      if(data.length == 0) {
+        reject('User not found');
+      
       }
-      });
+      else
+      resolve(data);console.log();
+    }
+  });
+
+});
+
+};
+let  createUser = (user)=>{
+  
+  return new Promise((resolve, reject)=>{
+
+    coll.insert(user, function(err, data) {
+    if (err) {
+      reject(err);
+    } else {
+      resolve(data);
+    }
+  });
+
+});
 }
 // export service
 service.ifRegistered = ifRegistered;

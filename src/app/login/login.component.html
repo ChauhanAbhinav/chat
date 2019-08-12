@@ -13,6 +13,14 @@
                                     </mat-form-field>
                                   </td>
                                 </tr>
+                                <tr *ngIf="otpInput">
+                                        <td>
+                                          <mat-form-field class="example-full-width">
+                                          <input matInput placeholder="Enter OTP" formControlName="otp"
+                                          type="number"  name="otp" > 
+                                          </mat-form-field>
+                                        </td>
+                                      </tr>
                                 <tr>
                                         <td>
                                                 <mat-error *ngIf="0">Invalid Fields</mat-error>

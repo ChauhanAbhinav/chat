@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class LoginService {
   baseurl = 'http://localhost:3000';
   httpOptions = {
+    observe: 'response',
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
     }),
@@ -16,6 +17,6 @@ export class LoginService {
   }
  login(data) {
 console.log(data);
-return this.http.post(this.baseurl + '/api', data, this.httpOptions);
+return this.http.post(this.baseurl + '/login', data, {observe: 'response'});
   }
 }
