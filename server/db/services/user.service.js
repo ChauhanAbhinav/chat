@@ -26,7 +26,7 @@ let  ifRegistered = (user)=>{
       
       }
       else
-      resolve(data);console.log();
+      resolve(user);console.log();
     }
   });
 

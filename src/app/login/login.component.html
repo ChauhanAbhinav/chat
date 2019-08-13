@@ -5,25 +5,38 @@
                 <form class="my-form" [formGroup]="form" (ngSubmit)="onSubmit()">   
         <mat-card-content>
                          <table class="example-full-width" cellspacing="0" class="center">
+                                <!-- <tr>
+                                        <td>
+                                          <mat-form-field class="example-full-width">
+                                          </mat-form-field>
+                                        </td>
+                                      </tr> -->
                                 <tr>
-                                  <td>
+                                  <td><input matInput placeholder="" formControlName="countryCode"
+                                        type="text"  name="countryCode" readonly style="width: 35px;"> 
+                                </td>
+                                  
+                                <td>
                                     <mat-form-field class="example-full-width">
                                     <input matInput placeholder="Enter Mobile" formControlName="mobile"
                                     type="number"  name="mobile" > 
                                     </mat-form-field>
                                   </td>
                                 </tr>
-                                <tr *ngIf="otpInput">
+
+                                <tr *ngIf="FLAG_OTP">
+                                        <td></td>
                                         <td>
                                           <mat-form-field class="example-full-width">
                                           <input matInput placeholder="Enter OTP" formControlName="otp"
-                                          type="number"  name="otp" > 
+                                          type="text"  name="otp" > 
                                           </mat-form-field>
                                         </td>
                                       </tr>
                                 <tr>
+                                        <td></td>
                                         <td>
-                                                <mat-error *ngIf="0">Invalid Fields</mat-error>
+                                                <mat-error *ngIf="FLAG_ERROR">Invalid Fields</mat-error>
                                         </td>
                                 </tr>
                             </table>

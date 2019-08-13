@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Validators, FormBuilder} from '@angular/forms';
 import { LoginService } from '../services/login.service';
-import { validateHorizontalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-login',
@@ -9,38 +8,46 @@ import { validateHorizontalPosition } from '@angular/cdk/overlay';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  flag = true; otpInput = false;
+  FLAG_VALID = false;
+  FLAG_OTP = false;
+  FLAG__ERROR = false;
   form = this.fb.group({
   mobile: ['', [Validators.required, Validators.min(1000000000), Validators.max(9999999999)]],
+  countryCode: ['+91', [Validators.required]],
 });
   constructor(private fb: FormBuilder, private loginService: LoginService) { }
 
   onSubmit() {
-    console.log('Form valid?: ' + this.formValidator());
+
+    if (!this.FLAG_VALID) {
+    console.log('Form is ' + this.FLAG_VALID);
+    }
 
     if (this.formValidator()) {
-      console.log('inside condition form validation  ');
+
       this.loginService.login(this.form.value).subscribe(
         response => {
           if (response.status === 200) {
-           console.log(response);
-           this.validateOtp();
+           console.log(response.body);
+           this.getOtp();
           }
         },
         err => {
           console.log('Error:', err.error);
+          // this.FLAG__ERROR = true;
         });
     }
     }
   // form Validator
     formValidator() {
-    this.flag = (this.form.valid) && (this.form.get('mobile').valid);
-    return this.flag;
+    this.FLAG_VALID = (this.form.valid) && (this.form.get('mobile').valid);
+    return this.FLAG_VALID;
   }
   // otp
-  validateOtp() {
-  this.otpInput = true;
-  this.form.addControl('otp', this.fb.control('', Validators.required));
+  getOtp() {
+  this.FLAG_OTP = true;
+  this.form.addControl('otp', this.fb.control(''));
+  this.form.get('otp').setValidators([Validators.required]);
   }
 
   ngOnInit() {
