@@ -6,20 +6,19 @@ const twilioClient = require('twilio')(config.accountSid, config.authToken);
 let auth = {};
 
 auth.sendAuthyToken = function(user, successCallback, errorCallback) {
-let AuthyUser = { email: 'user@gmail.com', cellphone: user.mobile, countryCode: user.countryCode}
    
   if (!user.authyId) {
       // Register this user if it's a new user
-      authy.register_user(AuthyUser.email, AuthyUser.cellphone, AuthyUser.countryCode,
+      authy.register_user('user@gmail.com', user.mobile, user.countryCode,
           function(err, response) {
           if (err || !response.user) return errorCallback(err);
           user.authyId = response.user.id;
-          console.log('registering new user');
+          // successCallback(response, user.authyId);
               sendToken();
       });
   } else {
       // Otherwise send token to a known user
-      console.log('registered authy id');
+      console.log('registered authy user found');
       sendToken();
   }
 
@@ -28,7 +27,7 @@ let AuthyUser = { email: 'user@gmail.com', cellphone: user.mobile, countryCode: 
       authy.request_sms(user.authyId, true, function(error, response) {  //force : true
         if(error) errorCallback(error);
         else  
-        successCallback(response, user);
+        successCallback(response, user.authyId);
       });
 
   }
@@ -37,7 +36,7 @@ let AuthyUser = { email: 'user@gmail.com', cellphone: user.mobile, countryCode: 
 // Test a 2FA token
 auth.verifyAuthyToken = function(authyId, otp , cb) {
 
-  authy.verify(179825188, otp, function(err, response) {
+  authy.verify(authyId, otp, function(err, response) {
       cb(err, response);
   });
 };

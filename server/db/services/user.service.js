@@ -26,7 +26,10 @@ let  ifRegistered = (user)=>{
       
       }
       else
-      resolve(user);console.log();
+      {
+        // console.log('user found: ', user)
+      resolve(user);
+      }
     }
   });
 
