@@ -7,25 +7,18 @@ let user= {};
  let userService = require('../db/services/user.service');
 
  // check if registered
-
-router.post('/login',(req, res)=>{
-    // console.log(req.body);
-    if(!req.body.otp){
+router.post('/ifregistered',(req, res)=>{
     userService.ifRegistered(req.body)
     .then(function (user) {
             // authentication successful
-            console.log('User is registered');
-            res.redirect(307,'/sendtoken');
+            console.log('User is already registere');
+            res.status(200).json('Please wait!, You will recieve an OTP');
     }, function(err) {
          // User is not registered
          console.log(err);
          res.redirect(307,'/register');   // temporary redirect with same data
 
-    })
-} else{
-    res.redirect(307,'/varifytoken');
-}
-    
+    });   
 })
 // register user
 
@@ -34,7 +27,7 @@ router.post('/register',(req, res)=>{
     .then(function (data) {
             // registration successful
             console.log('Registration successful');
-            res.redirect(307, '/sendtoken');
+            res.status(200).json('Registration Successful, Please wait!');
         }, function(err) {
         console.log(err);
          // registration failed
@@ -61,17 +54,17 @@ router.post('/sendtoken',(req, res)=>{
 });
 // varify token
 
-router.post('/varifytoken', (req, res)=>{
+router.post('/verifytoken', (req, res)=>{
     console.log(user.authyId);
-    twilio.verifyAuthyToken(user.authyId, req.body.otp, (error, response)=>{
+    twilio.verifyAuthyToken(user.authyId, req.body.token, (error, response)=>{
             if(error){
-                console.log('Token varification error:',error);
+                console.log('Token verification error:',error);
                 res.status(400).json(JSON.stringify(error.message));
                 
             }
             else{
-                console.log('Token varification successful: ',response);
-                res.status(200).json('Token varification successful: '+JSON.stringify(response.message));
+                console.log('Token verification successful: ',response);
+                res.status(200).json(JSON.stringify(response.message));
             }
     })
     

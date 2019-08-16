@@ -1,6 +1,8 @@
 // dependencies
-var express = require('express');
-var app = express();
+var app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -15,6 +17,18 @@ var router = require('./routes/loginRoutes');
 app.use('/', router); // applying routes to the app
 
 // starting the server
-app.listen(PORT,()=>{
+http.listen(3000, function(){
     console.log('server is listening on port '+PORT);
 });
+
+// socket.io =====================================
+
+io.on('connection', function(socket){
+    console.log('a user connected');
+    io.emit('server','a user has joined the room');
+  
+    socket.on('disconnect', function(){
+      console.log('user disconnected');
+    io.emit('server','a user left the room');
+    });
+});  
