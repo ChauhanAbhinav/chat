@@ -24,19 +24,19 @@
                                   </td>
                                 </tr>
 
-                                <tr *ngIf="FLAG_OTP">
+                                <tr *ngIf="FLAG_TOKEN">
                                         <td></td>
                                         <td>
                                           <mat-form-field class="example-full-width">
-                                          <input matInput placeholder="Enter OTP" formControlName="otp"
-                                          type="text"  name="otp" > 
+                                          <input matInput placeholder="Enter Token" formControlName="token"
+                                          type="text"  name="token" > 
                                           </mat-form-field>
                                         </td>
                                       </tr>
                                 <tr>
                                         <td></td>
                                         <td>
-                                                <mat-error #error></mat-error>
+                                                <span #log></span>
                                         </td>
                                 </tr>
                             </table>
