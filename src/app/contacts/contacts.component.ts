@@ -16,11 +16,12 @@ export class ContactsComponent implements OnInit {
     this.chatService.getGroups(this.loginService.getLoggedUser()).subscribe(
       res => {
          if (res.status === 200) {
-          this.groups= res.body;
+          this.groups = res.body;
           // console.log(this.users);
          }
       },
       err => {
+
         console.log('Error:', err.error);
         });
    }

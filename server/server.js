@@ -77,7 +77,7 @@ io_private.on('connection', function(socket){
 });
 
 socket.on('sendchat', function (data) {
-  // we tell the client to execute 'updatechat' with 2 parameters
+  // we tell the client to execute 'updatechat'
   io_private.to(socket.room).emit('updatechat', socket.user1, data);
 });
 

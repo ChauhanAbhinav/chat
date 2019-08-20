@@ -11,6 +11,7 @@ export class PrivateChatComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private cookieService: CookieService) {
     const group = route.snapshot.params.group;
+    this.cookieService.delete( 'group');
     this.cookieService.set( 'group', group, 1);
    }
 

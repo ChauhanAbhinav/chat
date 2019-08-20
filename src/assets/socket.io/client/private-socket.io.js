@@ -4,6 +4,7 @@ var group = Cookies.get('group');
 
 userData = [user, group];
 
+
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
     // call the server-side function 'adduser' and send one parameter
@@ -12,6 +13,13 @@ socket.on('connect', function(){
 
 socket.on('updatechat', function (username, data) {
     $('#conversation').append('<li><b>'+username + ':</b> ' + data + '<br></li>');
+   
+    if(vis()){
+    $('#read').html("Read &#10004;");}
+    else{
+      $('#read').html("")
+    }
+    
 });
 
 socket.on('server',function(msg){
@@ -34,9 +42,29 @@ $(function(){
       $('#send').focus().click();
     }
   });
-
-  var isActive;
-  $(window).focus(function() { isActive = true; });
-  $(window).blur(function() { isActive = false; });
 });
+// visibility api
+var vis = (function(){
+  var stateKey, eventKey, keys = {
+      hidden: "visibilitychange",
+      webkitHidden: "webkitvisibilitychange",
+      mozHidden: "mozvisibilitychange",
+      msHidden: "msvisibilitychange"
+  };
+  for (stateKey in keys) {
+      if (stateKey in document) {
+          eventKey = keys[stateKey];
+          break;
+      }
+  }
+  return function(c) {
+      if (c) document.addEventListener(eventKey, c);
+      return !document[stateKey];
+  }
+})();
+vis(function(){
+  if(vis()){
+    console.log('visible now');
+  }
+ });
 

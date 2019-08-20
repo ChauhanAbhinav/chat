@@ -15,7 +15,7 @@ private users: any ;
     this.chatService.getAllUsers().subscribe(
       res => {
          if (res.status === 200) {
-          this.users= res.body;
+          this.users = res.body;
           // console.log(this.users);
          }
       },
@@ -24,13 +24,13 @@ private users: any ;
         });
    }
 
-   createGroup(mobile){
+   createGroup(mobile) {
 let user = this.loginService.getLoggedUser();
-let group = user +''+ mobile;
+let group = user + '' + mobile;
 this.chatService.createGroup(group).subscribe(
   res => {
     if (res.status === 200) {
-      this.router.navigateByUrl('dashboard/private/'+group);
+      this.router.navigateByUrl('dashboard/private/' + group);
     }
  },
  err => {

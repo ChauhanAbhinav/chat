@@ -25,6 +25,7 @@ export class LoginService {
     }
   }
   login(mobile) {
+    this.cookieService.deleteAll('/');
     this.cookieService.set( 'user', mobile, 1);  // take mobile as string, expires in 1 days
     this.router.navigateByUrl('/dashboard');
 
@@ -39,6 +40,7 @@ export class LoginService {
 
   logout() {
     this.cookieService.delete('user');
+    this.cookieService.deleteAll('/');
     this.router.navigateByUrl('/login');
 
   }

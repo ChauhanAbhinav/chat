@@ -13,14 +13,14 @@ auth.sendAuthyToken = function(user, successCallback, errorCallback) {
           function(err, response) {
           if (err || !response.user) return errorCallback(err);
           user.authyId = response.user.id;
-          successCallback(response, user.authyId);  // FOR TESTING PURPOSE
-              // sendToken();
+          // successCallback(response, user.authyId);  // FOR TESTING PURPOSE
+              sendToken();
       });
   } else {
       // Otherwise send token to a known user
       console.log('registered authy user found');
-       successCallback(response, user.authyId);  // FOR TESTING PURPOSE
-      // sendToken();
+      //  successCallback(response, user.authyId);  // FOR TESTING PURPOSE
+      sendToken();
   }
 
   // With a valid Authy ID, send the 2FA token for this user
@@ -36,15 +36,15 @@ auth.sendAuthyToken = function(user, successCallback, errorCallback) {
 
 // Test a 2FA token
 auth.verifyAuthyToken = function(authyId, token, cb) {
-let response={};
- response.message = "token is valid";
- let error={};
- error.message = "token is invalid";
-  cb(null, response);
+// let response={};
+//  response.message = "token is valid";
+//  let error={};
+//  error.message = "token is invalid";
+//   cb(null, response);
 
-  // authy.verify(authyId, token, function(error, response) {
-  //   cb(error, response);
-  // });
+  authy.verify(authyId, token, function(error, response) {
+    cb(error, response);
+  });
 };
 
 // Send a text message via twilio to this user
