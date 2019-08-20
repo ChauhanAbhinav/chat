@@ -65,7 +65,7 @@ io_private.on('connection', function(socket){
     socket.user1 = userData[0];
     socket.room = userData[1];
     private_rooms[socket.room] = socket.room;
-    console.log(private_rooms);
+    // console.log(private_rooms);
     socket.join(socket.room);
     // console.log(usernames);
 
@@ -81,6 +81,10 @@ socket.on('sendchat', function (data) {
   io_private.to(socket.room).emit('updatechat', socket.user1, data);
 });
 
+socket.on('sendVisibility', function(vis){
+  console.log(vis);
+  socket.broadcast.to(socket.room).emit('getVisibility', vis)
+})
 socket.on('disconnect', function(){
   socket.broadcast.to(socket.room).emit('server','<i>' + socket.user2 + '</i> has left the room');
   socket.leave(socket.room);

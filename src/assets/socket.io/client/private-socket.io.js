@@ -11,16 +11,32 @@ socket.on('connect', function(){
     socket.emit('createRoom', userData);
 });
 
-socket.on('updatechat', function (username, data) {
-    $('#conversation').append('<li><b>'+username + ':</b> ' + data + '<br></li>');
-   
-    if(vis()){
+socket.on('getVisibility', function(read){
+updateRead(read);  
+});
+  
+let updateRead = function(read) {
+  // alert(read);
+  if(read) {
     $('#read').html("Read &#10004;");}
     else{
       $('#read').html("")
     }
-    
+}
+
+socket.on('updatechat', function (username, data) {
+    $('#conversation').append('<li><b>'+username + ':</b> ' + data + '<br></li>');
+      
+    if(username == user) { 
+      // alert('if');
+    }
+  else {
+    // alert('else')
+    socket.emit('sendVisibility', vis());
+    $('#read').html("");
+  }
 });
+
 
 socket.on('server',function(msg){
     $('#conversation').append('<li> <b>Server: </b>'+msg+'</li>');
@@ -65,6 +81,10 @@ var vis = (function(){
 vis(function(){
   if(vis()){
     console.log('visible now');
+//     setTimeout(function(){
+//       console.log('visible now');
+// alert();
+//     }, 5000)
   }
  });
 
