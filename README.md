@@ -4,7 +4,25 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+git clone https://github.com/ChauhanAbhinav/chat.git
+
+Run following command for dev server:-
+
+cd chat
+npm install
+npm start
+
+cd server
+npm install
+npm start
+ 
+Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Note:
+
+1. For testing real time chat, use multiple browser for multiple users, only one user can be able to login from a browser at a time. This is because of over writing of cookies. 
+
+2. Contain a small bug of duplicate sockets.
 
 ## Code scaffolding
 
