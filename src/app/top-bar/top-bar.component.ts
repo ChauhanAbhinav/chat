@@ -11,9 +11,7 @@ export class TopBarComponent implements OnInit {
 
   constructor(private loginService: LoginService) {
   }
-  logout() {
-    this.loginService.logout();
-  }
+
   ngOnInit() {
   }
 

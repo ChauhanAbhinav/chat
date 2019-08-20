@@ -10,19 +10,10 @@
   <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <app-root></app-root>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script> 
-  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-<script>
-var socket = io();
 
-// on connection to server, ask for user's name with an anonymous callback
-socket.on('connect', function(){
-      // call the server-side function 'adduser' and send one parameter (value of prompt)
-  alert();
-  socket.emit('adduser', prompt("What's your name?"));
-});
-
-</script>
 </body>
 </html>

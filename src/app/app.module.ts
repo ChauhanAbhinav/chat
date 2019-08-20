@@ -11,6 +11,10 @@ import { MyMaterialModule } from './helpers/material.module';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
+import { HomeComponent } from './home/home.component';
+import { PrivateChatComponent } from './private-chat/private-chat.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +22,10 @@ import { CookieService } from 'ngx-cookie-service';
     TopBarComponent,
     LoginComponent,
     DashboardComponent,
+    HomeComponent,
+    PrivateChatComponent,
+    ContactsComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+<mat-toolbar>List of All Users</mat-toolbar>
+<mat-list>
+    <mat-list-item *ngFor="let user of users" style="width:100%">
+      <span style="display: inline-block;width:100px;">{{user.mobile}}</span>
+      <button mat-button color="primary" (click)="createGroup(user.mobile)"> Chat</button>
+    </mat-list-item>
+</mat-list>
+

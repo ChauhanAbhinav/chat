@@ -1,0 +1,8 @@
+<mat-toolbar>List of All Groups</mat-toolbar>
+<mat-list>
+    <mat-list-item *ngFor="let data of groups" style="width:100%">
+      <span style="display: inline-block;width:200px;">{{data.group}}</span>
+      <button mat-button color="primary" (click)="startChat(data.group)"> Chat</button>
+    </mat-list-item>
+</mat-list>
+
