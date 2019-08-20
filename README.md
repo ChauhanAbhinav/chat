@@ -22,6 +22,8 @@ Navigate to `http://localhost:4200/`. The app will automatically reload if you c
 
 1. For testing real time chat, use multiple browser for multiple users, only one user can be able to login from a browser at a time. This is because of over writing of cookies. 
 
+2. Contain a small bug of duplicate sockets.
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
