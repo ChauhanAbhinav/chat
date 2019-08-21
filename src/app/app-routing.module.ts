@@ -12,7 +12,7 @@ const routes: Routes = [
 { path: 'login', component: LoginComponent },
 { path: 'dashboard', component: DashboardComponent,
   children:  [                          // <---- child components declared here
-    { path: '', redirectTo: 'userlist', pathMatch: 'full' },
+    { path: '', redirectTo: 'contacts', pathMatch: 'full' },
     { path:'home', component: HomeComponent },
     { path:'private/:group', component: PrivateChatComponent },
     { path:'contacts', component: ContactsComponent },

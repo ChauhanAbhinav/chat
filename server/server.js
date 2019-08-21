@@ -24,25 +24,31 @@ http.listen(3000, function(){
 });
 
 // socket.io  -public=====================================
+
 io_public = io.of('/public');  // namespace public
 public_usernames = [];
 io_public.on('connection', function(socket){
-  socket.on('adduser', function(username){
-    socket.username = username;
-    public_usernames[username] = username
-		socket.room = 'public'; //assign default public room
-    socket.join(socket.room);
-    // console.log(usernames);
+  
+    socket.on('adduser', function(username){
+     
+        socket.username = username;
+        public_usernames[username] = username
+	  	  socket.room = 'public'; //assign default public room
+        socket.join(socket.room);
+        // console.log(public_usernames);
 
-		// echo to client they've connected
-		socket.emit('server', 'you have connected to a public room');
+		    // echo to client they've connected
+		    socket.emit('server', 'you have connected to a public room');
 
-    // echo to public room that a person has connected to their room
-		socket.broadcast.to('public').emit('server', '<i>' + socket.username + '</i> has connected to this room');
+        // echo to public room that a person has connected to their room
+		    socket.broadcast.to('public').emit('server', '<i>' + socket.username + '</i> has connected to this room');
+
+      
 });
 
 socket.on('sendchat', function (data) {
-  // we tell the client to execute 'updatechat' with 2 parameters
+  // we tell the client to execute 'updatechat' with 2 parameters 
+  console.log('server recieve chat');
   io_public.to(socket.room).emit('updatechat', socket.username, data);
 });
 
@@ -55,7 +61,7 @@ socket.on('disconnect', function(){
 
 });
 
- // socket.io -one to one =================================================
+ // socket.io  - private =================================================
 
 io_private = io.of('/private');  // namespace public
 private_rooms = [];
@@ -82,7 +88,6 @@ socket.on('sendchat', function (data) {
 });
 
 socket.on('sendVisibility', function(vis){
-  console.log(vis);
   socket.broadcast.to(socket.room).emit('getVisibility', vis)
 })
 socket.on('disconnect', function(){

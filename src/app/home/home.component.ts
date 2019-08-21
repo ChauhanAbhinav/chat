@@ -10,8 +10,7 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js');
-    // this.loadScript('https://code.jquery.com/jquery-1.11.1.js');
+
     this.loadScript('../assets/socket.io/client/public-socket.io.js');
   }
   public loadScript(url: string) {

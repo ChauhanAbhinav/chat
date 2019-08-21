@@ -6,4 +6,4 @@ font-size: 15px;}
 div button { width: calc(10% - 1px); border: none;border-radius: 0}
 #conversation { list-style-type: none; margin: 0; padding: 0; }
 #conversation li { padding: 5px 10px; }
-#conversation li:nth-child(odd) { background: #dddddd; }
+.server  { background: #444444; }
