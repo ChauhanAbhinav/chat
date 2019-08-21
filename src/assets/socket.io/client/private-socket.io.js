@@ -50,22 +50,25 @@ socket.on('server',function(msg){
 
 // on load of page
 $(function(){
-  // when the client clicks SEND
-  $('#send').click( function() {
+  function sendChat(){
     var message = $('#chat-input').val();
-    $('#chat-input').val('');
-    //  alert('private send');
-     socket.emit('sendchat', message);
+      $('#chat-input').val('');
+      // alert('public send');
+       socket.emit('sendchat', message);
+  }
+    // when the client hits ENTER on their keyboard
+    $('#chat-input').keypress(function(e) {
+      if(e.which == 13) {
+        // $(this).blur();
+        // $('#send').focus().click();
+        sendChat();
+      }
+    });
+      // when the client clicks SEND
+      $('#send').click( function() {
+        sendChat();
+      });
   });
-
-  // when the client hits ENTER on their keyboard
-  $('#chat-input').keypress(function(e) {
-    if(e.which == 13) {
-      $(this).blur();
-      $('#send').focus().click();
-    }
-  });
-});
 // visibility api
 var vis = (function(){
   var stateKey, eventKey, keys = {

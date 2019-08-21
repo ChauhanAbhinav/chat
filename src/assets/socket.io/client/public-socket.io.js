@@ -1,4 +1,4 @@
-if(socket) socket.close();
+
 var socket = io('http://localhost:3000/public');
 var user = Cookies.get('user');
 // on connection to server, ask for user's name with an anonymous callback
@@ -20,23 +20,28 @@ socket.on('updatechat', function (username, data) {
 socket.on('server',function(msg){
     $('#conversation').append('<li class="server" style="background: #ededed" > <b>Server: </b>'+msg+'</li>');
 });
-
+socket.on('end',function(){
+});
 // on load of page
 $(function(){
-  // when the client clicks SEND
-  $('#send').click( function() {
-    var message = $('#chat-input').val();
+
+function sendChat(){
+  var message = $('#chat-input').val();
     $('#chat-input').val('');
     // alert('public send');
      socket.emit('sendchat', message);
-  });
-
+}
   // when the client hits ENTER on their keyboard
   $('#chat-input').keypress(function(e) {
     if(e.which == 13) {
-      $(this).blur();
-      $('#send').focus().click();
+      // $(this).blur();
+      // $('#send').focus().click();
+      sendChat();
     }
   });
+    // when the client clicks SEND
+    $('#send').click( function() {
+      sendChat();
+    });
 });
 

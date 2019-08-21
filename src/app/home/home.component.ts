@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit} from '@angular/core';
+import { ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('input', {static: false}) private elementRef: ElementRef;
 
   constructor() { }
 
@@ -13,7 +15,12 @@ export class HomeComponent implements OnInit {
 
     this.loadScript('../assets/socket.io/client/public-socket.io.js');
   }
-  public loadScript(url: string) {
+
+  ngAfterViewInit(): void {
+    this.elementRef.nativeElement.focus();
+  }
+
+    public loadScript(url: string) {
     const body = document.body as HTMLDivElement;
     const script = document.createElement('script');
     script.innerHTML = '';

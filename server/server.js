@@ -54,6 +54,7 @@ socket.on('sendchat', function (data) {
 
 socket.on('disconnect', function(){
   socket.broadcast.to('public').emit('server','<i>' + socket.username + '</i> has left the room');
+  socket.emit('end');
   socket.leave(socket.room);
   delete public_usernames[socket.username];
   // console.log(usernames);
@@ -68,7 +69,7 @@ private_rooms = [];
 io_private.on('connection', function(socket){
 
   socket.on('createRoom', function(userData){
-    socket.user1 = userData[0];
+    socket.username = userData[0];
     socket.room = userData[1];
     private_rooms[socket.room] = socket.room;
     // console.log(private_rooms);
@@ -79,20 +80,23 @@ io_private.on('connection', function(socket){
 		socket.emit('server', 'you have connected to a private room: '+socket.room);
 
     // echo to public room that a person has connected to their room
-		socket.broadcast.to(socket.room).emit('server', '<i>' + socket.user1 + '</i> has connected to this room');
+		socket.broadcast.to(socket.room).emit('server', '<i>' + socket.username + '</i> has connected to this room');
 });
 
 socket.on('sendchat', function (data) {
   // we tell the client to execute 'updatechat'
-  io_private.to(socket.room).emit('updatechat', socket.user1, data);
+  io_private.to(socket.room).emit('updatechat', socket.username, data);
 });
 
 socket.on('sendVisibility', function(vis){
   socket.broadcast.to(socket.room).emit('getVisibility', vis)
 })
 socket.on('disconnect', function(){
-  socket.broadcast.to(socket.room).emit('server','<i>' + socket.user2 + '</i> has left the room');
+  socket.broadcast.to(socket.room).emit('server','<i>' + socket.username + '</i> has left the room');
+  socket.broadcast.to(socket.room).emit('getVisibility', false);
   socket.leave(socket.room);
+  delete socket.room;
+  delete socket.username;
  });
 
 });

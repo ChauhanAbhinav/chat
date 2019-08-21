@@ -35,8 +35,8 @@ import { UsersComponent } from './users/users.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  exports: [],
   providers: [CookieService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule { }
