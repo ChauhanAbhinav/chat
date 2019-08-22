@@ -8,9 +8,11 @@ import { LoginService } from '../services/login.service';
   styleUrls: ['./top-bar.component.css']
 })
 export class TopBarComponent implements OnInit {
-
+private user;
   constructor(private loginService: LoginService) {
+    this.user = 'Dashboard';
   }
+
 
   ngOnInit() {
   }

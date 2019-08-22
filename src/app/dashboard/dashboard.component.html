@@ -1,6 +1,14 @@
 <mat-sidenav-container>
   <mat-sidenav  mode="side" opened>
-    <mat-nav-list >
+    <mat-nav-list style="text-align: center;font-size:20px;font-weight:100;">
+        {{user}}
+        <a mat-list-item >
+          <button mat-raised-button   color="primary" (click) = "logout()">
+              <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px">power_settings_new</mat-icon> Logout
+            </button>
+          </a>
+
+        <mat-divider ></mat-divider>
 
       <a mat-list-item [routerLink]="'public'"> 
           <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px">public</mat-icon> Public </a>
@@ -13,12 +21,7 @@
       <a mat-list-item [routerLink]="'userlist'"> 
         <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px">group</mat-icon>All Users </a>
 
-      <mat-divider ></mat-divider>
 
-      <a mat-list-item >
-        <button mat-raised-button   color="primary" (click) = "logout()">
-            <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px">power_settings_new</mat-icon> Logout</button>
-      </a>
 
     </mat-nav-list>
   </mat-sidenav>
