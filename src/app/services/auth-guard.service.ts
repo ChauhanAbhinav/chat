@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HomeComponent } from './../home/home.component'
+import { PublicComponent } from '../public/public.component'
 import {
   CanActivate,
   CanActivateChild,
@@ -11,10 +11,10 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements  CanDeactivate<HomeComponent> {
+export class AuthGuardService implements  CanDeactivate<PublicComponent> {
 
   constructor() { }
-  canDeactivate(component: HomeComponent) {
+  canDeactivate(component: PublicComponent) {
     // if ( window.confirm('Are you sure you want to leave the room?')) {
       // console.log('inside deactivate, Allowed');
       // // load disconnect script

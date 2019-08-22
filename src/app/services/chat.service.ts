@@ -14,14 +14,20 @@ export class ChatService {
     // responseType:
   };
   constructor(private http: HttpClient) { }
+
   getAllUsers() {
     return this.http.get(this.baseurl + '/userslist', {observe: 'response'});
     }
-    createGroup(group){
-      console.log(group);
-      return this.http.post(this.baseurl + '/addgroup', {group: group}, {observe: 'response'});
+  addContact(contactModel) {
+    return this.http.post(this.baseurl + '/addContact', contactModel, {observe: 'response'});
     }
-    getGroups(user) {
-      return this.http.post(this.baseurl + '/getgroups', {user: user}, {observe: 'response'});
+  getAllContacts(user) {
+    return this.http.post(this.baseurl + '/getallcontacts', {mobile: user}, {observe: 'response'});
+    }
+  getContact(user , contactName) {
+    return this.http.post(this.baseurl + '/getcontactinfo', {mobile: user, contact: contactName}, {observe: 'response'});
+    }
+  deleteContact(user , contactName) {
+    return this.http.post(this.baseurl + '/deletecontact', {mobile: user, contact: contactName}, {observe: 'response'});
       }
 }

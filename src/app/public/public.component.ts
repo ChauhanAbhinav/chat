@@ -1,11 +1,11 @@
 import { Component, OnInit} from '@angular/core';
 import { ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-public',
+  templateUrl: './public.component.html',
+  styleUrls: ['./public.component.css']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class PublicComponent implements OnInit, AfterViewInit {
 
   @ViewChild('input', {static: false}) private elementRef: ElementRef;
 

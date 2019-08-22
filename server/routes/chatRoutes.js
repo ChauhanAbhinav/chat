@@ -16,11 +16,15 @@ router.get('/userslist',(req, res)=>{
 
 });
 
-router.post('/addgroup',(req, res)=>{
+router.post('/addContact',(req, res)=>{
   // console.log("req",req.body);
-  userService.addGroup(req.body.group)
+  userService.addContact(req.body)
   .then(function (data) {
-          res.status(200).json(data);
+      if(data == 'already added')
+          res.status(202).json('Contact is already added');  // accepted
+        else{
+          res.status(200).json(data);   // ok
+        }
       }, function(err) {
       console.log(err);
        res.status(400).json(err);
@@ -28,14 +32,38 @@ router.post('/addgroup',(req, res)=>{
 
 });
 
-router.post('/getgroups',(req, res)=>{
+router.post('/getallcontacts',(req, res)=>{
   // console.log(req.body.user);
-  userService.getGroups(req.body.user)
+  userService.getAllContacts(req.body.mobile)
   .then(function (data) {
           res.status(200).json(data);
       }, function(err) {
       console.log(err);
        // registration failed
+       res.status(400).json(err);
+  })
+
+});
+
+router.post('/getcontact',(req, res)=>{
+  // console.log(req.body);
+  userService.getContact(req.body.mobile, req.body.contact)
+  .then(function (data) {
+          res.status(200).json(data);
+      }, function(err) {
+      console.log(err);
+       res.status(400).json(err);
+  })
+
+});
+
+router.post('/deletecontact',(req, res)=>{
+  // console.log(req.body);
+  userService.deleteContact(req.body.mobile, req.body.contact)
+  .then(function (data) {
+          res.status(200).json(data);
+      }, function(err) {
+      console.log(err);
        res.status(400).json(err);
   })
 

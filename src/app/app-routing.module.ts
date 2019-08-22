@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component'
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HomeComponent } from './home/home.component';
-import { PrivateChatComponent } from './private-chat/private-chat.component';
+import { PublicComponent } from './public/public.component';
+import { PrivateComponent } from './private/private.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { UsersComponent } from './users/users.component';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -14,8 +14,8 @@ const routes: Routes = [
 { path: 'dashboard', component: DashboardComponent,
   children:  [                          // <---- child components declared here
     { path: '', redirectTo: 'contacts', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, canDeactivate: [AuthGuardService]},
-    { path: 'private/:group', component: PrivateChatComponent, canDeactivate: [AuthGuardService] },
+    { path: 'public', component: PublicComponent, canDeactivate: [AuthGuardService]},
+    { path: 'private/:contact/:room', component: PrivateComponent, canDeactivate: [AuthGuardService] },
     { path: 'contacts', component: ContactsComponent },
     { path: 'userlist', component: UsersComponent },
   ]

@@ -74,29 +74,37 @@ let  getAllUsers = ()=>{
 });
 }
 
-let  addGroup = (group)=>{
-  console.log(group);
-  let user1 = Number(String(group).slice(0,10));
-  let user2 = Number(String(group).slice(10, 20));
+let  addContact = (contactModel)=>{
+  // console.log(contactModel);
 
   return new Promise((resolve, reject)=>{
-    coll = db.collection('groups');
-    coll.insertMany([{'mobile': user1, 'group': group},{'mobile': user2, 'group': group}], function(err, data) {
-    if (err) {
-      reject(err);
-    } else {
-      resolve(data);
-    }
-  });
+    coll = db.collection('contacts');
+    // check if contact already exist
+    getContact(contactModel.contact, contactModel.mobile).then(function (data) {
+    // contact already exist
+       resolve('already added');
+    }, function(err) {
+    // if contact is not already added, then add
+    // add contact to both of users
+    coll.insertMany([contactModel,{'mobile': contactModel.contact, 'contact': contactModel.mobile, 'room': contactModel.room}], function(err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+})
+  
+  
 
 });
 }
 
-let  getGroups = (user)=>{
+let  getAllContacts = (user)=>{
 
   return new Promise((resolve, reject)=>{
-console.log(user);
-    db.collection('groups').find({"mobile" : user}).toArray(function(err, data) {
+// console.log(user);
+    db.collection('contacts').find({"mobile" : user}).toArray(function(err, data) {
       if (err)
         reject(err);
        else {
@@ -115,11 +123,55 @@ console.log(user);
 
 });
 }
+let  getContact = (mobile, contact)=>{
+
+return new Promise((resolve, reject)=>{
+// console.log(data);
+    db.collection('contacts').find({ $and: [{'mobile' : mobile}, {'contact': contact}]}).toArray(function(err, data) {
+      if (err)
+        reject(err);
+       else {
+        //  console.log(data);
+        if(data.length == 0) {
+          reject('No contact found');
+
+        }
+        else
+        {
+          // console.log('contact found: ', user)
+        resolve(data);
+        }
+      }
+  });
+
+});
+}
+
+let  deleteContact = (mobile, contact)=>{
+
+  return new Promise((resolve, reject)=>{
+  // console.log(data);
+      db.collection('contacts').remove({ $and: [{'mobile' : mobile}, {'contact': contact}]}, function(err, data) {
+        if (err)
+          reject(err);
+         else {
+          db.collection('contacts').remove({ $and: [{'mobile' : contact}, {'contact': mobile}]}, function(err, data) {
+            // console.log('contact found: ', user)
+            if (err)
+            reject(err);
+            else
+            resolve(data);
+          });
+        }
+          });
+    });
+  };
 // export service
 service.ifRegistered = ifRegistered;
 service.createUser = createUser;
 service.getAllUsers = getAllUsers;
-service.addGroup = addGroup;
-service.getGroups = getGroups;
-
+service.addContact = addContact;
+service.getAllContacts = getAllContacts;
+service.getContact = getContact;
+service.deleteContact = deleteContact;
 module.exports = service;

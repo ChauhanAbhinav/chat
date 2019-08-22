@@ -70,7 +70,7 @@ io_private.on('connection', function(socket){
 
   socket.on('createRoom', function(userData){
     socket.username = userData[0];
-    socket.room = userData[1];
+    socket.room = userData[2];
     private_rooms[socket.room] = socket.room;
     // console.log(private_rooms);
     socket.join(socket.room);

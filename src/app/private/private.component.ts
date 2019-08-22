@@ -5,17 +5,24 @@ import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-private-chat',
-  templateUrl: './private-chat.component.html',
-  styleUrls: ['./private-chat.component.css']
+  templateUrl: './private.component.html',
+  styleUrls: ['./private.component.css']
 })
-export class PrivateChatComponent implements OnInit, AfterViewInit {
+export class PrivateComponent implements OnInit, AfterViewInit {
+  private contact: any;
+  private room: any;
 
   @ViewChild('input', {static: false}) private elementRef: ElementRef;
 
   constructor(private route: ActivatedRoute, private cookieService: CookieService) {
-    const group = route.snapshot.params.group;
-    this.cookieService.delete( 'group');
-    this.cookieService.set( 'group', group, 1);
+    this.contact = route.snapshot.params.contact;
+    this.room = route.snapshot.params.room;
+
+    // console.log(contact);
+    this.cookieService.delete( 'contact');
+    this.cookieService.set( 'contact', this.contact , 1);
+    this.cookieService.delete( 'room');
+    this.cookieService.set( 'room', this.room , 1);
    }
 
   ngOnInit() {

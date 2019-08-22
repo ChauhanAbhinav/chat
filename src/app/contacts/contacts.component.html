@@ -1,9 +1,11 @@
-<mat-toolbar>List of all your Groups</mat-toolbar>
-<mat-list *ngIf="groups">
-    <mat-list-item *ngFor="let data of groups" style="width:100%">
-      <span style="display: inline-block;width:200px;">{{data.group}}</span>
-      <button mat-button color="primary" (click)="startChat(data.group)"> Chat</button>
+<mat-toolbar>Your Contacts</mat-toolbar>
+<mat-list *ngIf="contacts">
+    <mat-list-item *ngFor="let data of contacts" style="width:100%">
+      <span style="padding-right: 40px;">{{data.contact}}</span>
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="startChat(data.contact, data.room)">chat</mat-icon>
+      <span class="spacer"></span>
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="deleteContact(data.contact)">delete</mat-icon>
     </mat-list-item>
 </mat-list>
-<mat-toolbar *ngIf="!groups">It is lonely here.</mat-toolbar>
+<mat-toolbar *ngIf="!contacts">It is lonely here.</mat-toolbar>
 

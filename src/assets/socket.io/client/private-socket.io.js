@@ -1,14 +1,14 @@
 if(socket) socket.close();
 var socket = io('http://localhost:3000/private');
-var user = Cookies.get('user');
-var group = Cookies.get('group');
 
-var userData = [user, group];
+var user = Cookies.get('user');
+var contact = Cookies.get('contact');
+var room = Cookies.get('room');
+
+var userData = [user, contact, room];
 var FLAG_SENDER ;
 
-// on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
-    // call the server-side function 'adduser' and send one parameter
     socket.emit('createRoom', userData);
 });
 

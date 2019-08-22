@@ -11,8 +11,8 @@ import { MyMaterialModule } from './helpers/material.module';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
-import { HomeComponent } from './home/home.component';
-import { PrivateChatComponent } from './private-chat/private-chat.component';
+import { PublicComponent } from './public/public.component';
+import { PrivateComponent } from './private/private.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { UsersComponent } from './users/users.component';
 
@@ -22,8 +22,8 @@ import { UsersComponent } from './users/users.component';
     TopBarComponent,
     LoginComponent,
     DashboardComponent,
-    HomeComponent,
-    PrivateChatComponent,
+    PublicComponent,
+    PrivateComponent,
     ContactsComponent,
     UsersComponent,
   ],
@@ -37,6 +37,5 @@ import { UsersComponent } from './users/users.component';
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],
-  
 })
 export class AppModule { }
