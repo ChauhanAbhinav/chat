@@ -34,7 +34,7 @@ const contactModel = { mobile : user, contact: contactNumber, room: roomName };
 
 this.chatService.addContact(contactModel).subscribe(
   res => {
-    console.log('response', res);
+    // console.log('response', res);
     if (res.status === 200) {
       alert('contact added');
       // this.router.navigateByUrl('dashboard/private/' + contactModel.contact + '/' + contactModel.room);

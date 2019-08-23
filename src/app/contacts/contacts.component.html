@@ -1,11 +1,19 @@
-<mat-toolbar>Your Contacts</mat-toolbar>
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <mat-toolbar>Your Contacts
+    <span class="spacer"></span>
+  <button mat-raised-button   color="primary" type="submit">Create Group </button>
+</mat-toolbar>
+
 <mat-list *ngIf="contacts">
-    <mat-list-item *ngFor="let data of contacts" style="width:100%">
-      <span style="padding-right: 40px;">{{data.contact}}</span>
-      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="startChat(data.contact, data.room)">chat</mat-icon>
+    <mat-list-item formArrayName="contacts" *ngFor="let contact of form.controls.contacts.controls; let i = index" style="width:100%">
+
+      <mat-checkbox [formControlName]='i' style="padding-right: 40px;" color="primary" >{{contacts[i].contact}}</mat-checkbox>
+
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="startChat(contacts[i].contact,contacts[i].contact)">chat</mat-icon>
       <span class="spacer"></span>
-      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="deleteContact(data.contact)">delete</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="deleteContact(contacts[i].contact, i)">delete</mat-icon>
+    
     </mat-list-item>
 </mat-list>
 <mat-toolbar *ngIf="!contacts">It is lonely here.</mat-toolbar>
-

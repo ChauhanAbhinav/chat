@@ -9,7 +9,7 @@ router.get('/userslist',(req, res)=>{
   .then(function (data) {
           res.status(200).json(data);
       }, function(err) {
-      console.log(err);
+      // console.log(err);
        // registration failed
        res.status(400).json(err);
   })
@@ -26,7 +26,7 @@ router.post('/addContact',(req, res)=>{
           res.status(200).json(data);   // ok
         }
       }, function(err) {
-      console.log(err);
+      // console.log(err);
        res.status(400).json(err);
   });
 
@@ -38,7 +38,7 @@ router.post('/getallcontacts',(req, res)=>{
   .then(function (data) {
           res.status(200).json(data);
       }, function(err) {
-      console.log(err);
+      // console.log(err);
        // registration failed
        res.status(400).json(err);
   })
@@ -51,7 +51,7 @@ router.post('/getcontact',(req, res)=>{
   .then(function (data) {
           res.status(200).json(data);
       }, function(err) {
-      console.log(err);
+      // console.log(err);
        res.status(400).json(err);
   })
 
@@ -63,7 +63,7 @@ router.post('/deletecontact',(req, res)=>{
   .then(function (data) {
           res.status(200).json(data);
       }, function(err) {
-      console.log(err);
+      // console.log(err);
        res.status(400).json(err);
   })
 

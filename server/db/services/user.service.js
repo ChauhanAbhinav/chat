@@ -115,7 +115,6 @@ let  getAllContacts = (user)=>{
         }
         else
         {
-          // console.log('user found: ', user)
         resolve(data);
         }
       }
@@ -159,13 +158,20 @@ let  deleteContact = (mobile, contact)=>{
             // console.log('contact found: ', user)
             if (err)
             reject(err);
-            else
-            resolve(data);
+            else{
+             // send modified contact list
+              getAllContacts(mobile)
+              .then(function (data) {
+               resolve(data)
+            }, function(err) {
+               reject(err);
+            })
+            }
           });
         }
-          });
-    });
-  };
+      });
+  });
+};
 // export service
 service.ifRegistered = ifRegistered;
 service.createUser = createUser;
