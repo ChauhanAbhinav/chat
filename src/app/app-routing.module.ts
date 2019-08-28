@@ -6,7 +6,9 @@ import { PublicComponent } from './public/public.component';
 import { PrivateComponent } from './private/private.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { UsersComponent } from './users/users.component';
+import { GroupComponent } from './group/group.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { GroupListComponent } from './group-list/group-list.component';
 
 const routes: Routes = [
 { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -16,8 +18,10 @@ const routes: Routes = [
     { path: '', redirectTo: 'contacts', pathMatch: 'full' },
     { path: 'public', component: PublicComponent, canDeactivate: [AuthGuardService]},
     { path: 'private/:contact/:room', component: PrivateComponent, canDeactivate: [AuthGuardService] },
+    { path: 'group/:contact/:group', component: GroupComponent, canDeactivate: [AuthGuardService] },
     { path: 'contacts', component: ContactsComponent },
     { path: 'userlist', component: UsersComponent },
+    { path: 'grouplist', component: GroupListComponent },
   ]
 }
 ];

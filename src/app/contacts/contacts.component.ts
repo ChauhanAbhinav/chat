@@ -32,17 +32,30 @@ private addCheckboxes() {
     this.contacts.map((o, i) => {  // data, index
       const control = new FormControl(false); // initialized as unchecked
       (this.form.controls.contacts as FormArray).push(control);
-      // console.log(o);
     });
   }
-
-
-private submit() {
-
-    const selectedContactsIds = this.form.value.contacts
+private createGroup() {
+    let group = prompt('Choose a group name');
+    group = String(group);
+    const selectedContacts = this.form.value.contacts
       .map((v, i) => v ? this.contacts[i].contact : null)
       .filter(v => v !== null);
-    console.log(selectedContactsIds);
+    console.log(group);
+    this.chatService.createGroup(this.user, selectedContacts, group).subscribe(
+      res => {
+        // console.log('response', res);
+        if (res.status === 200) {
+          alert(res.body);
+          this.router.navigateByUrl('dashboard/group/' + this.user + '/' + group);
+        }
+    },
+     err => {
+      if (err.error) {
+        // console.log('Error:', err.error);
+        alert('Error: ' + err.error);
+      }
+       });
+
   }
 
 

@@ -69,4 +69,36 @@ router.post('/deletecontact',(req, res)=>{
 
 });
 
+router.post('/creategroup',(req, res)=>{
+  // console.log("req",req.body);
+  userService.createGroup(req.body.mobile, req.body.selectedContacts, req.body.group)
+  .then(function (data) {
+          res.status(200).json(data);
+      }, function(err) {
+  // console.log(err);
+       res.status(400).json(err);
+  });
+});
+
+router.post('/grouplist',(req, res)=>{
+  // console.log("req",req.body);
+  userService.getAllGroups(req.body.mobile)
+  .then(function (data) {
+          res.status(200).json(data);   
+      }, function(err) {
+      // console.log(err);
+       res.status(400).json(err);
+  });
+});
+router.post('/deletegroup',(req, res)=>{
+  // console.log(req.body);
+  userService.deleteGroup(req.body.mobile, req.body.group)
+  .then(function (data) {
+          res.status(200).json(data);
+      }, function(err) {
+      // console.log(err);
+       res.status(400).json(err);
+  })
+});
+
 module.exports = router;

@@ -29,5 +29,14 @@ export class ChatService {
     }
   deleteContact(user , contactName) {
     return this.http.post(this.baseurl + '/deletecontact', {mobile: user, contact: contactName}, {observe: 'response'});
+    }
+  createGroup(user , contacts, group) {
+    return this.http.post(this.baseurl + '/creategroup', {mobile: user, selectedContacts: contacts, group: group}, {observe: 'response'});
+    }
+  getAllGroups(user) {
+    return this.http.post(this.baseurl + '/grouplist', {mobile: user}, {observe: 'response'});
       }
+  deleteGroup(user , group) {
+    return this.http.post(this.baseurl + '/deletegroup', {mobile: user, group: group}, {observe: 'response'});
+}
 }

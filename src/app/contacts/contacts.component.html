@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form [formGroup]="form" (ngSubmit)="createGroup()">
 
   <mat-toolbar>Your Contacts
     <span class="spacer"></span>
@@ -10,7 +10,7 @@
 
       <mat-checkbox [formControlName]='i' style="padding-right: 40px;" color="primary" >{{contacts[i].contact}}</mat-checkbox>
 
-      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="startChat(contacts[i].contact,contacts[i].contact)">chat</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="startChat(contacts[i].contact,contacts[i].room)">chat</mat-icon>
       <span class="spacer"></span>
       <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="deleteContact(contacts[i].contact, i)">delete</mat-icon>
     

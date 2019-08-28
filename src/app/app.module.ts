@@ -15,6 +15,8 @@ import { PublicComponent } from './public/public.component';
 import { PrivateComponent } from './private/private.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { UsersComponent } from './users/users.component';
+import { GroupComponent } from './group/group.component';
+import { GroupListComponent } from './group-list/group-list.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { UsersComponent } from './users/users.component';
     PrivateComponent,
     ContactsComponent,
     UsersComponent,
+    GroupComponent,
+    GroupListComponent,
   ],
   imports: [
     BrowserModule,

@@ -100,3 +100,39 @@ socket.on('disconnect', function(){
  });
 
 });
+
+
+
+// socket.io  -groups=====================================
+
+io_group = io.of('/group');  // namespace public
+io_group.on('connection', function(socket){
+  
+    socket.on('adduser', function(username, group){
+     
+        socket.username = username;
+	  	  socket.room = group; //assign default public room
+        socket.join(socket.room);
+       
+        // echo to client they've connected
+		    socket.emit('server', 'you have connected to a private group: '+ socket.room);
+
+        // echo to public room that a person has connected to their room
+		    socket.broadcast.to(socket.room).emit('server', '<i>' + socket.username + '</i> has connected to this room');
+
+      
+});
+
+socket.on('sendchat', function (data) {
+  // we tell the client to execute 'updatechat' with 2 parameters 
+  // console.log('server recieve chat');
+  io_group.to(socket.room).emit('updatechat', socket.username, data);
+});
+
+socket.on('disconnect', function(){
+  socket.broadcast.to(socket.room).emit('server','<i>' + socket.username + '</i> has left the room');
+  socket.emit('end');
+  socket.leave(socket.room);
+});
+
+});

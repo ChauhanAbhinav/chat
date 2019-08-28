@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from './../services/chat.service';
-import { MatList, MatListItem } from '@angular/material/list';
 import { LoginService } from '../services/login.service';
 import {Router} from '@angular/router';
 

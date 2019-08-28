@@ -1,0 +1,16 @@
+<mat-toolbar>Your Groups
+  </mat-toolbar>
+  
+  <mat-list *ngIf="groups">
+    <mat-list-item *ngFor="let group of groups" style="width:100%">
+      <span style="display: inline-block;width:100px;">{{group.group}}</span>
+
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="startChat(group.mobile,group.group)">chat</mat-icon>
+
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer; margin-left:20px;" >info</mat-icon>
+      <span class="spacer"></span>
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="deleteGroup(group.mobile,group.group)">delete</mat-icon>
+    </mat-list-item>
+</mat-list>
+  <mat-toolbar *ngIf="!groups">It is lonely here.</mat-toolbar>
+  
