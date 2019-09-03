@@ -1,5 +1,24 @@
+<!-- top bar -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+   <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 0px">home</mat-icon>        
+     <button mat-button routerLink="/dashboard" style="font-size:20px">    
+          {{loginService.name}}
+  </button>
+  <span class="spacer"></span>
+
+  <button mat-button routerLink="contacts">Chats
+    <mat-icon *ngIf="Notification.notify" [ngStyle]="{'color': '#ff0000', 'font-size': '14px'}" >notifications_active</mat-icon>
+  </button>
+  
+  <button mat-button routerLink="userlist">All Users</button>
+  <button mat-button (click) = "logout()">Logout</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<!-- side nav is closed -->
 <mat-sidenav-container>
-  <mat-sidenav  mode="side" opened>
+  <mat-sidenav  mode="side" closed>  
     <mat-nav-list style="text-align: center;font-size:20px;font-weight:100;">
         {{user}}
         <a mat-list-item >
@@ -11,19 +30,22 @@
         <mat-divider ></mat-divider>
 
       <a mat-list-item [routerLink]="'public'"> 
-          <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px">public</mat-icon> Public </a>
+          <mat-icon aria-hidden="false" aria-label="icon" color="primary"  style="padding-right: 10px">public</mat-icon> Public </a>
       <mat-divider></mat-divider>
 
       <a mat-list-item [routerLink]="'contacts'"> 
-          <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px" >contacts</mat-icon> Contacts </a>
-      <mat-divider></mat-divider>
+          <mat-icon aria-hidden="false" aria-label="icon" color="primary" style="padding-right: 10px" >chat</mat-icon> Contacts 
+          <mat-icon *ngIf="Notification.notify" [ngStyle]="{'color': '#ff0000'}">notifications_active</mat-icon>
+        </a>
+         
+          <mat-divider></mat-divider>
 
       <a mat-list-item [routerLink]="'grouplist'"> 
-        <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px" >group</mat-icon> Groups </a>
+        <mat-icon aria-hidden="false" aria-label="icon" color="primary"  style="padding-right: 10px" >group</mat-icon> Groups </a>
     <mat-divider></mat-divider>
 
       <a mat-list-item [routerLink]="'userlist'"> 
-        <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px">group</mat-icon>All Users </a>
+        <mat-icon aria-hidden="false" aria-label="icon" color="primary"  style="padding-right: 10px">people_outline</mat-icon>All Users </a>
 
 
 

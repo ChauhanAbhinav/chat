@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from './../services/chat.service';
 import { LoginService } from '../services/login.service';
-import {Router} from '@angular/router';
+import { SocketService} from './../services/socket.service';
 
 @Component({
   selector: 'app-users',
@@ -10,8 +10,10 @@ import {Router} from '@angular/router';
 })
 export class UsersComponent implements OnInit {
 private users: any ;
+private user;
 private FLAG_ADD: any = 'Add Contact';
-  constructor(private chatService: ChatService, private loginService: LoginService, private router: Router) {
+  constructor(private chatService: ChatService, private loginService: LoginService,  private socketService: SocketService) {
+
     this.chatService.getAllUsers().subscribe(
       res => {
          if (res.status === 200) {
@@ -24,19 +26,22 @@ private FLAG_ADD: any = 'Add Contact';
         });
    }
 
-   addContact(data) {
+   addContact(mobile, contactName) {
      // make model
-const user = Number(this.loginService.getLoggedUser());
-const contactNumber = Number( data );
-const roomName = String(user) + String(contactNumber);  // room name assigned
-const contactModel = { mobile : user, contact: contactNumber, room: roomName };
+const user = Number(this.loginService.user);
+const nameUser = this.loginService.name;
+const contact = Number( mobile );
+const roomName =  String(contact) + String(user) ;  // room name assigned
+const contactModel = { mobile : user, contact, contactName, room: roomName };
 
-this.chatService.addContact(contactModel).subscribe(
+
+// add contact to db
+this.chatService.addContact(contactModel, nameUser).subscribe(
   res => {
     // console.log('response', res);
     if (res.status === 200) {
       alert('contact added');
-      // this.router.navigateByUrl('dashboard/private/' + contactModel.contact + '/' + contactModel.room);
+      this.socketService.joinRoom(contact, roomName);
     } else
     if (res.status === 202) {
       alert('Contact is already added');
@@ -52,7 +57,6 @@ this.chatService.addContact(contactModel).subscribe(
  }
    });
 }
-
   ngOnInit() {
 
   }

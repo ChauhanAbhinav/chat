@@ -18,7 +18,7 @@ auth.sendAuthyToken = function(user, successCallback, errorCallback) {
       });
   } else {
       // Otherwise send token to a known user
-      console.log('registered authy user found');
+      // console.log('registered authy user found');
        successCallback(response, user.authyId);  // FOR TESTING PURPOSE
       // sendToken();
   }

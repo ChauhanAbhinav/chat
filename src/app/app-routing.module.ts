@@ -17,8 +17,8 @@ const routes: Routes = [
   children:  [                          // <---- child components declared here
     { path: '', redirectTo: 'contacts', pathMatch: 'full' },
     { path: 'public', component: PublicComponent, canDeactivate: [AuthGuardService]},
-    { path: 'private/:contact/:room', component: PrivateComponent, canDeactivate: [AuthGuardService] },
-    { path: 'group/:contact/:group', component: GroupComponent, canDeactivate: [AuthGuardService] },
+    { path: 'private/:contact/:room', component: PrivateComponent},
+    { path: 'group/:contact/:group', component: GroupComponent,  },
     { path: 'contacts', component: ContactsComponent },
     { path: 'userlist', component: UsersComponent },
     { path: 'grouplist', component: GroupListComponent },

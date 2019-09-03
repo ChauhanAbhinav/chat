@@ -1,7 +1,8 @@
-<mat-toolbar >
+<mat-toolbar color="primary" >
         <span class="center" >Login</span>
 </mat-toolbar>
-     <mat-card class="my-card card-center">
+
+     <mat-card class="my-card card-center" [ngStyle]="{'margin-top': '30px'}">
                 <form class="my-form" [formGroup]="form" (ngSubmit)="onSubmit()">   
         <mat-card-content>
                          <table class="example-full-width" cellspacing="0" class="center">
@@ -30,6 +31,16 @@
                                           <mat-form-field class="example-full-width">
                                           <input matInput placeholder="Enter Token" formControlName="token"
                                           type="text"  name="token" > 
+                                          </mat-form-field>
+                                        </td>
+                                      </tr>
+                                <tr>
+                                        <tr *ngIf="FLAG_NAME">
+                                        <td></td>
+                                        <td>
+                                          <mat-form-field class="example-full-width">
+                                          <input matInput placeholder="Enter Name" formControlName="name"
+                                          type="text"  name="name" > 
                                           </mat-form-field>
                                         </td>
                                       </tr>

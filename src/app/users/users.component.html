@@ -2,10 +2,10 @@
 </mat-toolbar>
 <mat-list *ngIf="users">
     <mat-list-item *ngFor="let user of users" style="width:100%">
-      <span style="display: inline-block;width:100px;">{{user.mobile}}</span>
+      <span style="display: inline-block;width:100px;">{{user.name}}</span>
       <span class="spacer"></span>
 
-      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="addContact(user.mobile)">group_add</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="addContact(user.mobile, user.name)">person_add</mat-icon>
 
     </mat-list-item>
 </mat-list>

@@ -13,7 +13,7 @@ export class PublicComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.loadScript('../assets/socket.io/client/public-socket.io.js');
+    // this.loadScript('../assets/socket.io/client/public-socket.io.js');
   }
 
   ngAfterViewInit(): void {

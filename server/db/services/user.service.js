@@ -73,8 +73,26 @@ let  getAllUsers = ()=>{
 
 });
 }
+let  getUser = (mobile)=>{
 
-let  addContact = (contactModel)=>{
+  return new Promise((resolve, reject)=>{
+
+    db.collection('users').findOne({'mobile': Number(mobile)},{_id: false}, function(err, data) {
+      if (err){
+        // console.log('user found: ', err)
+        reject(err);}
+         
+       else {
+        {
+          // console.log('user details : ', data)
+          resolve(data);
+        }
+      }
+  });
+
+});
+}
+let  addContact = (contactModel, nameUser)=>{
   // console.log(contactModel);
 
   return new Promise((resolve, reject)=>{
@@ -86,7 +104,7 @@ let  addContact = (contactModel)=>{
     }, function(err) {
     // if contact is not already added, then add
     // add contact to both of users
-    coll.insertMany([contactModel,{'mobile': contactModel.contact, 'contact': contactModel.mobile, 'room': contactModel.room}], function(err, data) {
+    coll.insertMany([contactModel,{'mobile': contactModel.contact, 'contact': contactModel.mobile, 'contactName': nameUser, 'room': contactModel.room}], function(err, data) {
       if (err) {
         reject(err);
       } else {
@@ -94,9 +112,6 @@ let  addContact = (contactModel)=>{
       }
     });
 })
-  
-  
-
 });
 }
 
@@ -150,11 +165,11 @@ let  deleteContact = (mobile, contact)=>{
 
   return new Promise((resolve, reject)=>{
   // console.log(data);
-      db.collection('contacts').remove({ $and: [{'mobile' : mobile}, {'contact': contact}]}, function(err, data) {
+      db.collection('contacts').deleteOne({ $and: [{'mobile' : mobile}, {'contact': contact}]}, function(err, data) {
         if (err)
           reject(err);
          else {
-          db.collection('contacts').remove({ $and: [{'mobile' : contact}, {'contact': mobile}]}, function(err, data) {
+          db.collection('contacts').deleteOne({ $and: [{'mobile' : contact}, {'contact': mobile}]}, function(err, data) {
             // console.log('contact found: ', user)
             if (err)
             reject(err);
@@ -254,10 +269,59 @@ let  getAllGroups = (mobile)=>{
           });
         }
 
+let  saveChat = (user, contact, room, msg)=>{
+
+  return new Promise((resolve, reject)=>{
+    coll = db.collection('chatMessage');
+    // check if chat exist then update chat
+    
+    getChat(room).then(function (data) {
+    // console.log(data);
+    data.messages.push({from: user, to: contact, message: msg});
+    coll.updateOne({'room': room}, {$set: {messages: data.messages}}, function(err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve("message saved");
+      }
+    });
+    resolve("message saved")
+    }, function(err) {
+    // if chat is not exist, then add
+    let chatSchema = {room: room, messages: [{from: user, to: contact, message: msg}]};
+    coll.insertOne(chatSchema, function(err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve("message saved");
+      }
+    });
+})
+});
+}
+let  getChat = (room)=>{
+  return new Promise((resolve, reject)=>{
+      db.collection('chatMessage').findOne({'room' : room}, {'_id': 0, 'room': 0}, function(err, data) {
+        if (err)
+          reject(err);
+         else {
+          if(!data) {
+            reject('No chat found');
+          }
+          else
+          {
+          resolve(data);
+          }
+        }
+    });
+  
+    });
+  }
 // export service
 service.ifRegistered = ifRegistered;
 service.createUser = createUser;
 service.getAllUsers = getAllUsers;
+service.getUser = getUser;
 service.addContact = addContact;
 service.getAllContacts = getAllContacts;
 service.getContact = getContact;
@@ -265,4 +329,6 @@ service.deleteContact = deleteContact;
 service.createGroup = createGroup;
 service.getAllGroups = getAllGroups;
 service.deleteGroup = deleteGroup;
+service.saveChat = saveChat;
+service.getChat = getChat;
 module.exports = service;

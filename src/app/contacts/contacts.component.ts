@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { ChatService } from './../services/chat.service';
-import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { SocketService} from './../services/socket.service';
+import { NotificationService} from './../services/notification.service';
+import { FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import {Router} from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-
 
 @Component({
   selector: 'app-contacts',
@@ -16,14 +16,18 @@ export class ContactsComponent implements OnInit {
   private form: FormGroup;
   private user: any = this.loginService.getLoggedUser();
 
-  constructor(private chatService: ChatService, private loginService: LoginService,
-              private router: Router, private cookieService: CookieService, private fb: FormBuilder) {
 
+
+  constructor(private chatService: ChatService, private loginService: LoginService,
+              private router: Router, private fb: FormBuilder, private socketService: SocketService,
+              private Notification: NotificationService) {
     this.form = fb.group({
     contacts: new FormArray([])
     });
-
     this.getContacts();
+    this.Notification.notify = false;
+    // Notification.contacts[] ;
+
   }
 
 
@@ -33,6 +37,14 @@ private addCheckboxes() {
       const control = new FormControl(false); // initialized as unchecked
       (this.form.controls.contacts as FormArray).push(control);
     });
+  }
+  // start the chat
+  private startChat(contact, room) {
+    if ((typeof contact !== 'undefined') && (typeof room !== 'undefined')) {
+      this.router.navigateByUrl('dashboard/private/' + contact + '/' + room);
+   } else {
+      alert('Not able to locate the room');
+   }
   }
 private createGroup() {
     let group = prompt('Choose a group name');
@@ -52,7 +64,6 @@ private createGroup() {
      err => {
       if (err.error) {
         // console.log('Error:', err.error);
-        alert('Error: ' + err.error);
       }
        });
 
@@ -69,45 +80,33 @@ private getContacts() {this.chatService.getAllContacts(this.user).subscribe(
        }
     },
     err => {
-      console.log('Error:', err.error);
+      // console.log('Error:', err.error);
       });
  }
 
 
   // delete contact function
-private deleteContact(contact, i) {
+private deleteContact(contact, i, room) {
+
     this.chatService.deleteContact(this.user, contact).subscribe(
       res => {
          if (res.status === 200) {
           this.contacts = res.body;
           (this.form.controls.contacts as FormArray).clear();
           this.addCheckboxes();
+          this.socketService.leaveRoom(contact, room);
          }
       },
       err => {
         if (err.status === 400) {
            // no user left
           delete this.contacts;
+          this.socketService.leaveRoom(contact, room);
         } else {
-          console.log('Error:', err.status);
-          alert('Error: ' + err.error);
+          // console.log('Error:', err.status);
         }
         });
    }
-
-
-   // start the chat
- private startChat(contact, room) {
-  // console.log(room);
-  if ((typeof contact !== 'undefined') && (typeof room !== 'undefined')) {
-    this.router.navigateByUrl('dashboard/private/' + contact + '/' + room);
- } else {
-    alert('Not able to locate the room');
- }
-}
-private checkType(data) {
-  return typeof data;
-}
   ngOnInit() {
   }
 

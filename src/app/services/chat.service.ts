@@ -14,12 +14,14 @@ export class ChatService {
     // responseType:
   };
   constructor(private http: HttpClient) { }
-
+  getUser(mobile) {
+    return this.http.post(this.baseurl + '/getuser', {mobile}, {observe: 'response'});
+      }
   getAllUsers() {
     return this.http.get(this.baseurl + '/userslist', {observe: 'response'});
     }
-  addContact(contactModel) {
-    return this.http.post(this.baseurl + '/addContact', contactModel, {observe: 'response'});
+  addContact(contactModel, nameUser) {
+    return this.http.post(this.baseurl + '/addContact', {contactModel, nameUser}, {observe: 'response'});
     }
   getAllContacts(user) {
     return this.http.post(this.baseurl + '/getallcontacts', {mobile: user}, {observe: 'response'});
@@ -31,12 +33,15 @@ export class ChatService {
     return this.http.post(this.baseurl + '/deletecontact', {mobile: user, contact: contactName}, {observe: 'response'});
     }
   createGroup(user , contacts, group) {
-    return this.http.post(this.baseurl + '/creategroup', {mobile: user, selectedContacts: contacts, group: group}, {observe: 'response'});
+    return this.http.post(this.baseurl + '/creategroup', {mobile: user, selectedContacts: contacts, group}, {observe: 'response'});
     }
   getAllGroups(user) {
     return this.http.post(this.baseurl + '/grouplist', {mobile: user}, {observe: 'response'});
       }
   deleteGroup(user , group) {
-    return this.http.post(this.baseurl + '/deletegroup', {mobile: user, group: group}, {observe: 'response'});
+    return this.http.post(this.baseurl + '/deletegroup', {mobile: user, group}, {observe: 'response'});
 }
+  getChat(room) {
+  return this.http.post(this.baseurl + '/getchat', {room}, {observe: 'response'});
+    }
 }

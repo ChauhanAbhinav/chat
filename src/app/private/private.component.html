@@ -1,10 +1,11 @@
+<form>
 <div>
-    <input matInput id="chat-input"  autocomplete="off" placeholder="Type Something ... and hit enter"  #input/>
+    <input matInput id="chat-input"  autocomplete="off" placeholder="Type Something ... and hit enter" name="input" [(ngModel)]="input" (keypress)="sendMessage($event)" #inputBox>
     <!-- <button mat-raised-button id="send">Send</button> -->
 </div>
-<mat-toolbar>{{contact}}</mat-toolbar>
+</form>
+<mat-toolbar>{{name}}</mat-toolbar>
 <mat-divider></mat-divider>
 
-<ul id="conversation"></ul>
-    <span id="read"></span>
-   
+<ul id="conversation" #conversation></ul>
+    <span id="read" #read></span>

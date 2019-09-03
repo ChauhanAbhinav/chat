@@ -9,5 +9,6 @@ import { LoginService } from './services/login.service';
 export class AppComponent {
   title = 'chat';
   constructor( private loginService: LoginService) {
+    window.resizeTo(250, 250);
   }
 }

@@ -1,9 +1,8 @@
 // var sock;
-if(typeof socket !== 'undefined') {
+if(typeof p_socket !== 'undefined') {
 
-    socket.emit('sendVisibility', false);
     console.log('connection is closed');
-    socket.disconnect();
+    p_socket.disconnect();
 }else{
 console.log('no connection is open');
 }

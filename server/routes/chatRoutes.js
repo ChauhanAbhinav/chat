@@ -16,9 +16,19 @@ router.get('/userslist',(req, res)=>{
 
 });
 
+router.post('/getuser',(req, res)=>{
+  userService.getUser(req.body.mobile)
+  .then(function (data) {
+          res.status(200).send(data);
+      }, function(err) {
+      // console.log(err);
+       res.status(400).json(err);
+  })
+
+});
 router.post('/addContact',(req, res)=>{
-  // console.log("req",req.body);
-  userService.addContact(req.body)
+  console.log("req",req.body);
+  userService.addContact(req.body.contactModel, req.body.nameUser)
   .then(function (data) {
       if(data == 'already added')
           res.status(202).json('Contact is already added');  // accepted
@@ -36,6 +46,7 @@ router.post('/getallcontacts',(req, res)=>{
   // console.log(req.body.user);
   userService.getAllContacts(req.body.mobile)
   .then(function (data) {
+    // console.log(data);
           res.status(200).json(data);
       }, function(err) {
       // console.log(err);
@@ -100,5 +111,14 @@ router.post('/deletegroup',(req, res)=>{
        res.status(400).json(err);
   })
 });
-
+router.post('/getchat',(req, res)=>{
+  // console.log(req.body);
+  userService.getChat(req.body.room)
+  .then(function (data) {
+          res.status(200).json(data);
+      }, function(err) {
+      // console.log(err);
+       res.status(400).json(err);
+  })
+});
 module.exports = router;
