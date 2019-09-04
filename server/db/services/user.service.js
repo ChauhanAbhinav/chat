@@ -40,7 +40,22 @@ let  createUser = (user)=>{
 
   return new Promise((resolve, reject)=>{
 
-    db.collection('users').insert(user, function(err, data) {
+    db.collection('users').insertOne(user, function(err, data) {
+    if (err) {
+      reject(err);
+    } else {
+      resolve(data);
+    }
+  });
+
+});
+}
+
+let editDetails = (user)=>{
+
+  return new Promise((resolve, reject)=>{
+
+    db.collection('users').updateOne({mobile: user.mobile},{$set: {name: user.name}}, function(err, data) {
     if (err) {
       reject(err);
     } else {
@@ -331,4 +346,5 @@ service.getAllGroups = getAllGroups;
 service.deleteGroup = deleteGroup;
 service.saveChat = saveChat;
 service.getChat = getChat;
+service.editDetails = editDetails;
 module.exports = service;

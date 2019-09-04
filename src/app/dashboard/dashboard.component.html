@@ -5,6 +5,9 @@
      <button mat-button routerLink="/dashboard" style="font-size:20px">    
           {{loginService.name}}
   </button>
+  <button mat-button>
+    <mat-icon aria-hidden="false" aria-label="icon" [routerLink]="['edit']" routerLinkActive="router-link-active"  style="color: #1d2f84">edit</mat-icon>
+  </button>
   <span class="spacer"></span>
 
   <button mat-button routerLink="contacts">Chats

@@ -71,6 +71,17 @@ router.post('/verifytoken', (req, res)=>{
     
 });
 
+router.post('/editdetails',(req, res)=>{
+    userService.editDetails(req.body)
+    .then(function (data) {
+            res.status(200).json('Update Successful');
+        }, function(err) {
+        // console.log(err);
+         // registration failed
+         res.status(400).json(err);
+    })
+    
+})
 router.get('/',(req, res)=>{
     res.json('node is listening');
 });
