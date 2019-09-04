@@ -18,11 +18,21 @@ npm start
  
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## Database 
+Mongodb:- running or remote by default
+for switching change url in server>db>dbUtils.js  
+
+remoteUrl : 'mongodb+srv://<user>:<password>@cluster0-winsn.mongodb.net/test'
+  user: abhinav, pass: mongoose
+  
+localUrl :- localUrl: 'mongodb://127.0.0.1:27017'
+
+DB Name: chat
+collections: Users, contacts, chatMessage
+
 ## Note:
 
-1. For testing real time chat, use multiple browser for multiple users, only one user can be able to login from a browser at a time. This is because of over writing of cookies. 
-
-2. Contain a small bug of duplicate sockets.
+1. Read reciept and routing guards are left.
 
 ## Code scaffolding
 
