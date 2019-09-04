@@ -10,7 +10,6 @@ import { SocketService} from './../services/socket.service';
 })
 export class UsersComponent implements OnInit {
 private users: any ;
-private user;
 private FLAG_ADD: any = 'Add Contact';
   constructor(private chatService: ChatService, private loginService: LoginService,  private socketService: SocketService) {
 
@@ -49,11 +48,11 @@ this.chatService.addContact(contactModel, nameUser).subscribe(
 },
  err => {
   if (err.error) {
-    // console.log('Error:', err.error);
-    alert('Error: ' + err.error);
+    console.log('Error:', err.error);
+    // alert('Error: ' + err.error);
   } else {
-    // console.log('Unknown Error: ' + err);
-    alert('Unknown Error: ' + err);
+    console.log('Unknown Error: ' + err);
+    // alert('Unknown Error: ' + err);
  }
    });
 }

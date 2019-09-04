@@ -31,12 +31,14 @@ socketTable = [];  // server will maintain a table of all sockets and their room
 
 io_private.on('connection', function(socket){
   // on user connection
+
   console.log('user connected to private:' + socket.id);
+
 rooms = [];
 socket.on('username', function(username){
   username = Number(username)
   socketTable[username] = { socketId: socket.id, username: username, rooms: []}
-  // console.log(socketTable);
+  console.log('Socket Table:-', socketTable);
 });
 
 socket.on('joinRoom', function(username, contact, room){
@@ -54,51 +56,50 @@ socket.on('joinRoom', function(username, contact, room){
 
     if(socketTable[contact].rooms[room])
     {
-      console.log('contact is connected an room is assigned'); 
+      // contact is connected an room is assigned
     }
     else { 
-      console.log('contact is connected but room is not assigned');
+      // contact is connected but room is not assigned
       // join contact to remove
       id = socketTable[contact].socketId; 
-      // io_private.sockets[id].join();
+      io_private.connected[id].join(room);
       // update socket table
       socketTable[contact].rooms[room] = {contact: contact, room: room};
     }
   }
   else{
-    console.log('contact is not connected');
+    // contact is not connected
   }
-  console.log(socketTable);
+  console.log('Socket Table:-', socketTable);
 });
 
-socket.on('leaveRoom', function(username, contact, room){
+socket.on('deleteRoom', function(username, contact, room){
   // rooms.push(room);
   username = Number(username);
   contact = Number(contact);
   
   socket.leave(room);
-  console.log('user leaved the room: '+room);
+  console.log('user deleted the room: '+room);
   delete socketTable[username].rooms[room];
   // remove contact from room also
   if(socketTable[contact])
   {
     if(socketTable[contact].rooms[room])
     {
-      console.log('contact is connected and has joined the room'); 
-       // remove contact from room
+      // contact is connected and has joined the room
        id = socketTable[contact].socketId;
-      //  io_private.sockets[id].leave(room);
+       io_private.connected[id].leave(room);
        // update socket table
        delete socketTable[contact].rooms[room];
        }
     else { 
-      console.log('contact is connected but room is not assigned');
+      // contact is connected but room is not assigned
     }
   }
   else{
-    console.log('contact is not connected');
+    // contact is not connected
   }
-  // console.log(socketTable);
+  console.log('Socket Table:-', socketTable);
 });
 
 socket.on('sendchat', function (user, contact, room, msg) {
@@ -111,10 +112,10 @@ socket.on('sendchat', function (user, contact, room, msg) {
   // save chat to db  
   userService.saveChat(user, contact, room, msg)
   .then((data)=>{
-    console.log(data);
+    // success
   },
   (err)=>{
-    console.log(err);
+    // error
   });
   }
 });
@@ -132,7 +133,7 @@ socket.on('disconnect', function(){
   });
   delete socketTable[socket.username];
   delete socket.username;
-  console.log(socketTable);
+  console.log('Socket Table:-', socketTable);
  });
 
 });

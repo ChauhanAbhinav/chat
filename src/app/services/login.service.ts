@@ -29,8 +29,7 @@ export class LoginService {
     }
   }
   login(mobile) {
-    this.cookieService.deleteAll('user');
-    this.cookieService.set( 'user', mobile, 1);  // take mobile as string, expires in 1 days
+    this.cookieService.set( 'user', mobile, 1, '/');  // take mobile as string, expires in 1 days
     this.router.navigateByUrl('/dashboard');
     this.user = mobile;
     this.name = this.getLoggedName(mobile);
@@ -56,7 +55,7 @@ export class LoginService {
             for (let key in res.body) {
               if ((key === 'name')) {
                 const name = String(res.body[key]);
-                this.cookieService.set('name', name, 1);
+                this.cookieService.set('name', name, 1, '/');
                 this.name = name;
                 return name;
               }
@@ -72,9 +71,10 @@ export class LoginService {
   }
 
   logout() {
-    this.cookieService.delete('user');
-    this.cookieService.delete('name');
-    this.cookieService.deleteAll('/');
+    this.cookieService.delete('user', '/');
+    this.cookieService.delete('name', '/');
+    this.name = '';
+    this.user = '';
     this.router.navigateByUrl('/login');
 
   }

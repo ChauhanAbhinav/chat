@@ -6,7 +6,6 @@ import * as io from 'socket.io-client';
   providedIn: 'root'
 })
 export class SocketService {
-  private user;
   public socket;
 
   constructor( private chatService: ChatService, private loginService: LoginService) {
@@ -16,16 +15,15 @@ export class SocketService {
 
       this.socket = io('http://localhost:3000/private'); // initializes the socket
       this.socket.on('connect', () => {
-        this.user = this.loginService.getLoggedUser();
-        this.socket.emit('username', this.user);
+        this.loginService.user = this.loginService.getLoggedUser();
+        this.socket.emit('username', this.loginService.user);
         // alert('connected');
         this.joinAllRooms(successCallback);
       });
     }
     // join in all rooms of all contacts
     public joinAllRooms(successCallback) {
-// console.log('join room payload:'+this.user);
-      this.chatService.getAllContacts(this.user).subscribe(
+      this.chatService.getAllContacts(this.loginService.user).subscribe(
       res => {
          if (res.status === 200) {
           this.createRooms(res.body, successCallback);
@@ -39,7 +37,7 @@ export class SocketService {
 private createRooms(contacts , successCallback) {
   // alert('inside create room');
   contacts.forEach((contact, index) => {
-                this.socket.emit('joinRoom', this.user, contact.contact, contact.room);
+                this.socket.emit('joinRoom', this.loginService.user, contact.contact, contact.room);
                 if (contacts.length === (index + 1)) {
                   // alert(contacts.length);
                   this.notificationListeners(successCallback);
@@ -55,13 +53,13 @@ public notificationListeners(successCallback) {
   });
 }
 public joinRoom(contact, room) {
-  this.user = this.loginService.getLoggedUser();
-  this.socket.emit('joinRoom', this.user, contact, room);
+  this.loginService.user = this.loginService.getLoggedUser();
+  this.socket.emit('joinRoom', this.loginService.user, contact, room);
 }
-public leaveRoom(contact, room) {
+public deleteRoom(contact, room) {
   // alert('inside leave');
-  this.user = this.loginService.getLoggedUser();
-  this.socket.emit('leaveRoom', this.user, contact, room);
+  this.loginService.user = this.loginService.getLoggedUser();
+  this.socket.emit('deleteRoom', this.loginService.user, contact, room);
 }
 
 public disconnect() {

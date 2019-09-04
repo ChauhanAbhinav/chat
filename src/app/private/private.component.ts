@@ -13,9 +13,8 @@ import { NotificationService} from './../services/notification.service';
 })
 export class PrivateComponent implements OnInit, AfterViewInit {
   private contact;
+  private contactName;
   private room;
-  private user;
-  private name;
   private socket;
   private input;
   private html;
@@ -30,7 +29,7 @@ export class PrivateComponent implements OnInit, AfterViewInit {
 
     constructor(private route: ActivatedRoute, private loginService: LoginService,
                 private socketService: SocketService, private Notification: NotificationService, private chatService: ChatService) {
-    this.user = loginService.getLoggedUser();
+
     this.socket = this.socketService.socket;
     this.contact = route.snapshot.params.contact;
     this.room = route.snapshot.params.room;
@@ -38,22 +37,21 @@ export class PrivateComponent implements OnInit, AfterViewInit {
     this.getName(this.contact);
     this.Notification.notify = false;
     delete this.Notification.contacts[this.contact];
-    // alert();
   }
 private sendMessage(event) {
 if (event.which === 13) {
-  this.socket.emit('sendchat', this.user, this.contact, this.room, this.input);
+  this.socket.emit('sendchat', this.loginService.user, this.contact, this.room, this.input);
   this.input = '';
 }
 }
-private getName(contact){
+private getName(contact) {
   this.chatService.getUser(contact).subscribe(
     res => {
       if (res.status === 200) {
         for (let key in res.body) {
           if ((key === 'name')) {
             const name = String(res.body[key]);
-            this.name = name;
+            this.contactName = name;
           }
         }
       }
@@ -85,7 +83,7 @@ this.chatService.getChat(room).subscribe(
 
  private showMessage() {
    this.chat.forEach(chat => {
-     if (chat.from === this.user) {
+     if (chat.from === this.loginService.user) {
       // tslint:disable-next-line: max-line-length
       this.message = '<li style="height: 28px; width: 100%;text-align: right;"><span style="width: 150px;padding: 5px; margin:5px; height: auto;background: rgba(63, 81,181,0.4); border-radius: 2px;">' + chat.message +
       '</span></li>';
@@ -105,7 +103,7 @@ this.chatService.getChat(room).subscribe(
     this.socket.on('updatechat', (user, contact, room, data) => {
       // alert(room);
       if (room === this.room) {
-      if (String(user) === String(this.user)) {
+      if (String(user) === String(this.loginService.user)) {
         // sender
         // tslint:disable-next-line: max-line-length
         this.html = '<li style="height: 28px; width: 100%;text-align: right;"><span style="width: 150px;padding: 5px; margin:5px; height: auto;background: rgba(63, 81,181,0.4); border-radius: 2px;">' + data +

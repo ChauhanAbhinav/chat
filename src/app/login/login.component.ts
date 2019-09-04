@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {Validators, FormBuilder} from '@angular/forms';
 import { LoginService } from '../services/login.service';
 
@@ -13,27 +13,23 @@ export class LoginComponent implements OnInit {
   FLAG_VALID = false;
   FLAG_TOKEN = false;
   FLAG_NAME = false;
-  cookieValue;
   form = this.fb.group({
   mobile: ['', [Validators.required, Validators.min(1000000000), Validators.max(9999999999)]],
   countryCode: ['+91', [Validators.required]],
 });
   constructor(private fb: FormBuilder, private loginService: LoginService) {
-    // loginService.authenticate();
   }
 
   onSubmit() {
-
     if (this.formValidator()) {
-
       if (!this.form.value.token) {
       // sending token
-        this.checkUser(this.form.value, false);
-
+        this.checkUser(this.form.getRawValue(), false);
         this.error.nativeElement.innerHTML = 'Sending token on given mobile number';
+        this.form.controls.mobile.disable();
       } else {
         // verify token sent
-      this.verifyToken(this.form.value);
+      this.verifyToken(this.form.getRawValue());
       }
   } else { this.update_error(); }
 
@@ -41,7 +37,7 @@ export class LoginComponent implements OnInit {
 }
   // form Validator
     formValidator() {
-    this.FLAG_VALID = (this.form.valid) && (this.form.get('mobile').valid);
+    this.FLAG_VALID = (this.form.valid);
     return this.FLAG_VALID;
   }
 
@@ -52,13 +48,11 @@ export class LoginComponent implements OnInit {
         this.loginService.registerUser(user).subscribe(
           res => {
              if (res.status === 200) {
-              // console.log(res.body);
               this.error.nativeElement.innerHTML = res.body;
               this.loginService.login(user.mobile);
             }
           },
           err => {
-            // console.log('Error:', err.error);
             this.error.nativeElement.innerHTML = err.error;
             });
   }
@@ -67,12 +61,11 @@ checkUser(user, register) {
    this.loginService.ifRegistered(user).subscribe(
     res => {
        if (res.status === 200) {
-        // console.log(res.body);
         this.error.nativeElement.innerHTML = res.body;
         if (register) {
         this.loginService.login(user.mobile);
         } else {
-          this.sendToken(this.form.value, false);
+          this.sendToken(user, false);
         }
       }
     },
@@ -84,13 +77,10 @@ checkUser(user, register) {
           this.registerUser(user);
         }, 0);
         } else {
-          this.sendToken(this.form.value, true);
+          this.sendToken(user, true);
         }
-
-      // console.log(err.error);
       } else {
       this.error.nativeElement.innerHTML = 'Error:' + err.error;
-      // console.log('Error:', err.error);
       }
       });
 }
@@ -100,7 +90,6 @@ checkUser(user, register) {
    this.loginService.sendToken(user).subscribe(
     response => {
       if (response.status === 200) {
-      // console.log(response.body);
       this.error.nativeElement.innerHTML = response.body;
       this.setTokenInput();
       if (name) {
@@ -109,7 +98,6 @@ checkUser(user, register) {
       }
     },
     error => {
-      // console.log('Error:', error.error);
       this.error.nativeElement.innerHTML = error.error;
     }
   );
@@ -119,7 +107,6 @@ checkUser(user, register) {
            this.loginService.verifyToken(user).subscribe(
             response => {
               if (response.status === 200) {
-              // console.log(response.body);
               this.error.nativeElement.innerHTML = response.body;
               setTimeout(() => {
                 this.checkUser(user, true);
@@ -127,7 +114,6 @@ checkUser(user, register) {
                }
             },
             error => {
-              console.log('Error:', error.error);
               this.error.nativeElement.innerHTML = error.error;
             }
           );

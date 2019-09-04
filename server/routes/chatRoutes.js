@@ -27,7 +27,7 @@ router.post('/getuser',(req, res)=>{
 
 });
 router.post('/addContact',(req, res)=>{
-  console.log("req",req.body);
+  // console.log("req",req.body);
   userService.addContact(req.body.contactModel, req.body.nameUser)
   .then(function (data) {
       if(data == 'already added')

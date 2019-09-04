@@ -20,7 +20,7 @@
 <mat-sidenav-container>
   <mat-sidenav  mode="side" closed>  
     <mat-nav-list style="text-align: center;font-size:20px;font-weight:100;">
-        {{user}}
+        {{loginService.name}}
         <a mat-list-item >
           <button mat-raised-button   color="primary" (click) = "logout()">
               <mat-icon aria-hidden="false" aria-label="icon" style="padding-right: 10px">power_settings_new</mat-icon> Logout

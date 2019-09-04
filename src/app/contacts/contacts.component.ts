@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 export class ContactsComponent implements OnInit {
   private contacts;
   private form: FormGroup;
-  private user: any = this.loginService.getLoggedUser();
+  // private user = this.loginService.user;
 
 
 
@@ -26,7 +26,6 @@ export class ContactsComponent implements OnInit {
     });
     this.getContacts();
     this.Notification.notify = false;
-    // Notification.contacts[] ;
 
   }
 
@@ -53,12 +52,12 @@ private createGroup() {
       .map((v, i) => v ? this.contacts[i].contact : null)
       .filter(v => v !== null);
     console.log(group);
-    this.chatService.createGroup(this.user, selectedContacts, group).subscribe(
+    this.chatService.createGroup(this.loginService.user, selectedContacts, group).subscribe(
       res => {
         // console.log('response', res);
         if (res.status === 200) {
           alert(res.body);
-          this.router.navigateByUrl('dashboard/group/' + this.user + '/' + group);
+          this.router.navigateByUrl('dashboard/group/' + this.loginService.user + '/' + group);
         }
     },
      err => {
@@ -71,7 +70,7 @@ private createGroup() {
 
 
   // get contact list
-private getContacts() {this.chatService.getAllContacts(this.user).subscribe(
+private getContacts() {this.chatService.getAllContacts(this.loginService.user).subscribe(
     res => {
        if (res.status === 200) {
         this.contacts = res.body;
@@ -84,24 +83,23 @@ private getContacts() {this.chatService.getAllContacts(this.user).subscribe(
       });
  }
 
-
   // delete contact function
 private deleteContact(contact, i, room) {
 
-    this.chatService.deleteContact(this.user, contact).subscribe(
+    this.chatService.deleteContact(this.loginService.user, contact).subscribe(
       res => {
          if (res.status === 200) {
           this.contacts = res.body;
           (this.form.controls.contacts as FormArray).clear();
           this.addCheckboxes();
-          this.socketService.leaveRoom(contact, room);
+          this.socketService.deleteRoom(contact, room);
          }
       },
       err => {
         if (err.status === 400) {
            // no user left
           delete this.contacts;
-          this.socketService.leaveRoom(contact, room);
+          this.socketService.deleteRoom(contact, room);
         } else {
           // console.log('Error:', err.status);
         }

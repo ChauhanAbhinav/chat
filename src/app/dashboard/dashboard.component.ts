@@ -11,15 +11,14 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  private user;
   private contacts;
   private socket;
 
   constructor(private loginService: LoginService, private chatService: ChatService,
               private socketService: SocketService, private route: ActivatedRoute, private Notification: NotificationService) {
   loginService.authenticate();
-  this.user = loginService.getLoggedUser();
-  loginService.getLoggedName(this.user);
+  loginService.getLoggedUser();
+  loginService.getLoggedName(loginService.user);
   this.socket = socketService.socket;
   }
 
@@ -29,21 +28,22 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-  this.socketService.connect((user, contact, room, data) => {
-    // alert('to:' + contact + 'from: ' + user + 'data: ' + data);
-    const children = this.route.snapshot.children;
-    const path = children[0].url[0].path;
-    // tslint:disable-next-line: max-line-length
-    if ((path !== 'private')) {
-    this.Notification.notify = true;
-    this.Notification.contacts[user] = true;
-    } else {
-      if (String(children[0].url[1].path) === String(user)) {
-      } else {
+    if (this.loginService.user) {
+      // only if user exists
+      this.socketService.connect((user, contact, room, data) => {
+        const children = this.route.snapshot.children;
+        const path = children[0].url[0].path;
+        if ((path !== 'private')) {
         this.Notification.notify = true;
         this.Notification.contacts[user] = true;
-         }
+        } else {
+          if (String(children[0].url[1].path) === String(user)) {
+          } else {
+            this.Notification.notify = true;
+            this.Notification.contacts[user] = true;
+             }
+        }
+      });
     }
-  });
   }
 }
