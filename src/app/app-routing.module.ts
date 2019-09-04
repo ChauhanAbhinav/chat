@@ -12,7 +12,7 @@ import { GroupListComponent } from './group-list/group-list.component';
 import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
-{ path: '', redirectTo: '/dashboard ', pathMatch: 'full' },
+{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 { path: 'login', component: LoginComponent },
 { path: 'dashboard', component: DashboardComponent,
   children:  [                          // <---- child components declared here
