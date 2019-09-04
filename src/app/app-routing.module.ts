@@ -9,9 +9,10 @@ import { UsersComponent } from './users/users.component';
 import { GroupComponent } from './group/group.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { GroupListComponent } from './group-list/group-list.component';
+import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
-{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+{ path: '', redirectTo: '/dashboard ', pathMatch: 'full' },
 { path: 'login', component: LoginComponent },
 { path: 'dashboard', component: DashboardComponent,
   children:  [                          // <---- child components declared here
@@ -22,6 +23,7 @@ const routes: Routes = [
     { path: 'contacts', component: ContactsComponent },
     { path: 'userlist', component: UsersComponent },
     { path: 'grouplist', component: GroupListComponent },
+    { path: 'edit', component: EditComponent },
   ]
 }
 ];

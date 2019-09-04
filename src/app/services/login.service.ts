@@ -69,7 +69,12 @@ export class LoginService {
          });
     }
   }
-
+public updateUser(user) {
+  this.cookieService.set('name', user.name, 1, '/');
+  this.name = user.name;
+  this.cookieService.set('user', String(user.mobile), 1, '/');
+  this.user = user.mobile;
+}
   logout() {
     this.cookieService.delete('user', '/');
     this.cookieService.delete('name', '/');
@@ -97,5 +102,9 @@ registerUser(data) {
   console.log(data);
   return this.http.post(this.baseurl + '/verifyToken', data, {observe: 'response'});
   }
-
+  editDetails(data) {
+    console.log(data);
+    return this.http.post(this.baseurl + '/editdetails', data, {observe: 'response'});
+    }
+  
 }
