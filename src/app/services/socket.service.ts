@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { ChatService } from './../services/chat.service';
 import { LoginService } from '../services/login.service';
 import * as io from 'socket.io-client';
+import {ActivatedRoute} from '@angular/router';
+
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
   public socket;
 
-  constructor( private chatService: ChatService, private loginService: LoginService) {
+  constructor( private chatService: ChatService, private loginService: LoginService, private route: ActivatedRoute) {
     }
     // connect function
     public connect(successCallback) {
@@ -65,6 +67,13 @@ public deleteRoom(contact, room) {
 public disconnect() {
   this.socket.disconnect();
 }
+// visibility api ========================================================
 
+public getVisibility = () => {
+   const path = window.location.pathname.split('/')[2];
+   if (document.visibilityState === 'visible' && path === 'private') {
+     return true;
+ } else { return false; }
+ }
  }
 

@@ -17,8 +17,8 @@ export class ChatService {
   getUser(mobile) {
     return this.http.post(this.baseurl + '/getuser', {mobile}, {observe: 'response'});
       }
-  getAllUsers() {
-    return this.http.get(this.baseurl + '/userslist', {observe: 'response'});
+  getAllUsers(user) {
+    return this.http.post(this.baseurl + '/userslist', {user}, {observe: 'response'});
     }
   addContact(contactModel, nameUser) {
     return this.http.post(this.baseurl + '/addContact', {contactModel, nameUser}, {observe: 'response'});

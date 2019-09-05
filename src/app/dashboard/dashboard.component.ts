@@ -26,7 +26,6 @@ export class DashboardComponent implements OnInit {
   this.socketService.disconnect();
   this.loginService.logout();
   }
-
   ngOnInit() {
     if (this.loginService.user) {
       // only if user exists

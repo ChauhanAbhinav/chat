@@ -51,10 +51,8 @@ private createGroup() {
     const selectedContacts = this.form.value.contacts
       .map((v, i) => v ? this.contacts[i].contact : null)
       .filter(v => v !== null);
-    console.log(group);
     this.chatService.createGroup(this.loginService.user, selectedContacts, group).subscribe(
       res => {
-        // console.log('response', res);
         if (res.status === 200) {
           alert(res.body);
           this.router.navigateByUrl('dashboard/group/' + this.loginService.user + '/' + group);
@@ -62,7 +60,6 @@ private createGroup() {
     },
      err => {
       if (err.error) {
-        // console.log('Error:', err.error);
       }
        });
 
@@ -74,12 +71,10 @@ private getContacts() {this.chatService.getAllContacts(this.loginService.user).s
     res => {
        if (res.status === 200) {
         this.contacts = res.body;
-        // console.log(this.contacts);
         this.addCheckboxes();
        }
     },
     err => {
-      // console.log('Error:', err.error);
       });
  }
 
@@ -101,7 +96,6 @@ private deleteContact(contact, i, room) {
           delete this.contacts;
           this.socketService.deleteRoom(contact, room);
         } else {
-          // console.log('Error:', err.status);
         }
         });
    }

@@ -4,8 +4,8 @@ const router = express.Router();
 
 let userService = require('../db/services/user.service');
 
-router.get('/userslist',(req, res)=>{
-  userService.getAllUsers()
+router.post('/userslist',(req, res)=>{
+  userService.getAllUsers(req.body.user)
   .then(function (data) {
           res.status(200).json(data);
       }, function(err) {

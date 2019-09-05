@@ -1,12 +1,14 @@
 <mat-toolbar>List of All Registered Users
 </mat-toolbar>
 <mat-list *ngIf="users">
-    <mat-list-item *ngFor="let user of users" style="width:100%">
-      <span style="display: inline-block;width:100px;">{{user.name}}</span>
-      <span class="spacer"></span>
+    <mat-list-item *ngFor="let user of usersList" style="width:100%">
 
-      <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="addContact(user.mobile, user.name)">person_add</mat-icon>
 
+        <span style="display: inline-block;width:100px;">{{user.user.name}}</span>
+        <span class="spacer"></span>
+        <mat-icon aria-hidden="false" aria-label="icon" style="cursor: pointer;" (click)="addContact(user.user.mobile, user.user.name)" *ngIf="(user.user.mobile !== loginService.user) && user.added === false">person_add</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="icon" *ngIf="user.added">contacts</mat-icon>
+   
     </mat-list-item>
 </mat-list>
 

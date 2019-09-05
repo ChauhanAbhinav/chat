@@ -36,7 +36,8 @@ io_private.on('connection', function(socket){
 
 rooms = [];
 socket.on('username', function(username){
-  username = Number(username)
+  username = Number(username);
+  socket.username = username;
   socketTable[username] = { socketId: socket.id, username: username, rooms: []}
   console.log('Socket Table:-', socketTable);
 });
@@ -102,17 +103,18 @@ socket.on('deleteRoom', function(username, contact, room){
   console.log('Socket Table:-', socketTable);
 });
 
-socket.on('sendchat', function (user, contact, room, msg) {
+socket.on('sendchat', function (user, contact, room, msg, messageId) {
   if(socketTable[user].rooms[room])
   {
   console.log('chat recieved in room: ' + room + ' from ' + 'user');
-  io_private.to(room).emit('updatechat', user, contact, room, msg);
-  // global update to rooms
+
+  // notification update to rooms
   socket.broadcast.to(room).emit('notificationAlert', user, contact, room, msg);
   // save chat to db  
-  userService.saveChat(user, contact, room, msg)
+  userService.saveChat(user, contact, room, msg, messageId)
   .then((data)=>{
     // success
+    io_private.to(room).emit('updatechat', user, contact, room, msg, messageId);
   },
   (err)=>{
     // error
@@ -120,8 +122,20 @@ socket.on('sendchat', function (user, contact, room, msg) {
   }
 });
 
-socket.on('sendVisibility', function(vis){
-  socket.broadcast.to(socket.room).emit('getVisibility', vis)
+socket.on('sendVisibility', function(visibility, room){
+  socket.broadcast.to(room).emit('getVisibility', visibility, room)
+  if(visibility){
+    userService.updateRead(room)
+    .then(
+      data => {
+        // success
+      },
+      err => {
+        // error
+      }
+    )
+  }
+  
 })
 // on user disconnection
 socket.on('disconnect', function(){
@@ -142,74 +156,74 @@ socket.on('disconnect', function(){
 
 // socket.io  -groups=====================================
 
-io_group = io.of('/group');  // namespace public
-io_group.on('connection', function(socket){
-  console.log('user connected to group namespace:' + socket.id);
-    socket.on('adduser', function(username, group){
+// io_group = io.of('/group');  // namespace public
+// io_group.on('connection', function(socket){
+//   console.log('user connected to group namespace:' + socket.id);
+//     socket.on('adduser', function(username, group){
      
-        socket.username = username;
-	  	  socket.room = group; //assign default public room
-        socket.join(socket.room);
-        console.log('user joined group: ' + socket.room);
-        // echo to client they've connected
-		    socket.emit('server', 'you have connected to a private group: '+ socket.room);
+//         socket.username = username;
+// 	  	  socket.room = group; //assign default public room
+//         socket.join(socket.room);
+//         console.log('user joined group: ' + socket.room);
+//         // echo to client they've connected
+// 		    socket.emit('server', 'you have connected to a private group: '+ socket.room);
 
-        // echo to public room that a person has connected to their room
-		    socket.broadcast.to(socket.room).emit('server', '<i>' + socket.username + '</i> has connected to this room');
+//         // echo to public room that a person has connected to their room
+// 		    socket.broadcast.to(socket.room).emit('server', '<i>' + socket.username + '</i> has connected to this room');
 
       
-});
+// });
 
-socket.on('sendchat', function (data) {
-  // we tell the client to execute 'updatechat' with 2 parameters 
-  console.log('server recieve chat');
-  io_group.to(socket.room).emit('updatechat', socket.username, data);
-});
+// socket.on('sendchat', function (data) {
+//   // we tell the client to execute 'updatechat' with 2 parameters 
+//   console.log('server recieve chat');
+//   io_group.to(socket.room).emit('updatechat', socket.username, data);
+// });
 
-socket.on('disconnect', function(){
-  socket.broadcast.to(socket.room).emit('server','<i>' + socket.username + '</i> has left the room');
-  socket.emit('end');
-  socket.leave(socket.room);
-});
+// socket.on('disconnect', function(){
+//   socket.broadcast.to(socket.room).emit('server','<i>' + socket.username + '</i> has left the room');
+//   socket.emit('end');
+//   socket.leave(socket.room);
+// });
 
-});
+// });
 
 
-// socket.io  -public=====================================
+// // socket.io  -public=====================================
 
-io_public = io.of('/public');  // namespace public
-public_usernames = [];
-io_public.on('connection', function(socket){
+// io_public = io.of('/public');  // namespace public
+// public_usernames = [];
+// io_public.on('connection', function(socket){
   
-    socket.on('adduser', function(username){
+//     socket.on('adduser', function(username){
      
-        socket.username = username;
-        public_usernames[username] = username
-	  	  socket.room = 'public'; //assign default public room
-        socket.join(socket.room);
-        // console.log(public_usernames);
+//         socket.username = username;
+//         public_usernames[username] = username
+// 	  	  socket.room = 'public'; //assign default public room
+//         socket.join(socket.room);
+//         // console.log(public_usernames);
 
-		    // echo to client they've connected
-		    socket.emit('server', 'you have connected to a public room');
+// 		    // echo to client they've connected
+// 		    socket.emit('server', 'you have connected to a public room');
 
-        // echo to public room that a person has connected to their room
-		    socket.broadcast.to('public').emit('server', '<i>' + socket.username + '</i> has connected to this room');
+//         // echo to public room that a person has connected to their room
+// 		    socket.broadcast.to('public').emit('server', '<i>' + socket.username + '</i> has connected to this room');
 
       
-});
+// });
 
-socket.on('sendchat', function (data) {
-  // we tell the client to execute 'updatechat' with 2 parameters 
-  console.log('server recieve chat');
-  io_public.to(socket.room).emit('updatechat', socket.username, data);
-});
+// socket.on('sendchat', function (data) {
+//   // we tell the client to execute 'updatechat' with 2 parameters 
+//   console.log('server recieve chat');
+//   io_public.to(socket.room).emit('updatechat', socket.username, data);
+// });
 
-socket.on('disconnect', function(){
-  socket.broadcast.to('public').emit('server','<i>' + socket.username + '</i> has left the room');
-  socket.emit('end');
-  socket.leave(socket.room);
-  delete public_usernames[socket.username];
-  // console.log(usernames);
-});
+// socket.on('disconnect', function(){
+//   socket.broadcast.to('public').emit('server','<i>' + socket.username + '</i> has left the room');
+//   socket.emit('end');
+//   socket.leave(socket.room);
+//   delete public_usernames[socket.username];
+//   // console.log(usernames);
+// });
 
-});
+// });

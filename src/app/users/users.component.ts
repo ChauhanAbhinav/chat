@@ -10,21 +10,50 @@ import { SocketService} from './../services/socket.service';
 })
 export class UsersComponent implements OnInit {
 private users: any ;
+private contacts: any;
+private usersList = [];
 private FLAG_ADD: any = 'Add Contact';
   constructor(private chatService: ChatService, private loginService: LoginService,  private socketService: SocketService) {
-
-    this.chatService.getAllUsers().subscribe(
-      res => {
-         if (res.status === 200) {
-          this.users = res.body;
-          // console.log(this.users);
-         }
-      },
-      err => {
-        console.log('Error:', err.error);
-        });
+    this.getAllUsers();
    }
+// get all users functions
+private getAllUsers() {
+  this.chatService.getAllUsers(this.loginService.user).subscribe(
+    res => {
+       if (res.status === 200) {
+         this.users = res.body;
+         this.chatService.getAllContacts(this.loginService.user).subscribe(
+          response => {
+            // contact found
+            this.contacts = response.body;
 
+            this.users.forEach((user) => {
+              let flag = false;
+
+              this.contacts.forEach( (contact) => {
+                if ( user.mobile === contact.contact ) {
+                flag = true;
+               }
+              });
+              if (flag) {
+                this.usersList.push({user, added: true});
+              } else {
+                this.usersList.push({user, added: false});
+              }
+            });
+          },
+          err => {
+            // No contacts found
+            this.users.forEach(user => {
+              this.usersList.push({user, added: false});
+            });
+          });
+       }
+    },
+    err => {
+      // error
+      });
+}
    addContact(mobile, contactName) {
      // make model
 const user = Number(this.loginService.user);
@@ -39,8 +68,10 @@ this.chatService.addContact(contactModel, nameUser).subscribe(
   res => {
     // console.log('response', res);
     if (res.status === 200) {
-      alert('contact added');
+
       this.socketService.joinRoom(contact, roomName);
+      this.usersList = [];
+      this.getAllUsers();
     } else
     if (res.status === 202) {
       alert('Contact is already added');
