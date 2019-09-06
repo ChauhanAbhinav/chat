@@ -61,6 +61,7 @@ collections:
     "contactName":"Name02",
     "room":"22222222221111111111"
     }
+    
 3. chatMessage: message will be strored in this collection. query can be made by distinct room name and all the messages are stored in a array as given below.
 
     {
