@@ -46,7 +46,7 @@ export class PrivateComponent implements OnInit, AfterViewInit {
   }
 private sendMessage(event) {
 if (event.which === 13 && this.input !== '') {
-  const messageId = Math.round(Math.random() * 10);
+  const messageId = Math.round(Math.random() * 10000000);
   this.socket.emit('sendchat', this.loginService.user, this.contact, this.room, this.input, messageId);
   this.input = '';
 }

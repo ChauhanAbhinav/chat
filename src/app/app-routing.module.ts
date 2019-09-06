@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component'
+import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PublicComponent } from './public/public.component';
 import { PrivateComponent } from './private/private.component';
@@ -25,7 +25,8 @@ const routes: Routes = [
     { path: 'grouplist', component: GroupListComponent },
     { path: 'edit', component: EditComponent },
   ]
-}
+},
+{ path: '**', component: LoginComponent },
 ];
 
 @NgModule({

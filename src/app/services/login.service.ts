@@ -30,9 +30,9 @@ export class LoginService {
   }
   login(mobile) {
     this.cookieService.set( 'user', mobile, 1, '/');  // take mobile as string, expires in 1 days
-    this.router.navigateByUrl('/dashboard');
     this.user = mobile;
     this.name = this.getLoggedName(mobile);
+    this.router.navigateByUrl('/dashboard');
   }
   getLoggedUser() {
     const cookieExists: boolean = this.cookieService.check('user');
