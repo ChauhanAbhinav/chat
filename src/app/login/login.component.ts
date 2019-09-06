@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   countryCode: ['+91', [Validators.required]],
 });
   constructor(private fb: FormBuilder, private loginService: LoginService) {
+    loginService.authenticate();
   }
 
   onSubmit() {
