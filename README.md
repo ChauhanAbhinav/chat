@@ -45,28 +45,29 @@ collections:
      eg- 
      
      {
-     "_id":"5d710302e85bdf72bf3ac110",  
-     "mobile":1111111111,               
-     "countryCode":"+91",               
-     "name":"Name01"                    
+     "_id":"5d710302e85bdf72bf3ac110", 
+     "mobile":1111111111, 
+     "countryCode":"+91", 
+     "name":"Name01" 
      }
      
 2. contacts:- added contact will be store in this collection, a room will be assigned to both users.
     eg-
     
     {
-    "_id":"5d7131acc643910edf2308ee",
-    "mobile":1111111111,
-    "contact":2222222222,
-    "contactName":"Name02",
-    "room":"22222222221111111111"
+    "_id":"5d7131acc643910edf2308ee", 
+    "mobile":1111111111, 
+    "contact":2222222222, 
+    "contactName":"Name02", 
+    "room":"22222222221111111111" 
     }
     
-3. chatMessage: message will be strored in this collection. query can be made by distinct room name and all the messages are stored in a array as given below.
+3. chatMessage: message will be strored in this collection. query can be made by distinct room name and all the messages are stored in a messages array as given below.
+In every elememnt of array we have from, to, messageId , message and read fields. from represents sender and to represent reciever, reciever has read the messsages or not is represented by the read of last message.  
 
     {
-    "_id":"5d7215c096fab91104edeff4",
-    "room":"44444444443333333333",
+    "_id":"5d7215c096fab91104edeff4", 
+    "room":"44444444443333333333", 
     "messages":[
                 {
                 "from":3333333333,
@@ -87,7 +88,7 @@ collections:
 
 ## Note:
 
-1. Read reciept and routing guards are left.
+1. Routing guards are left. But app is able to handle normal routing breaches.
 
 ## Code scaffolding
 
