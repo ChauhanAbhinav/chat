@@ -1,34 +1,84 @@
 # Chat
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.2.
+This is a chat application in which user can add users to their contact list and have chat with them without lossing any data.
+
+## functionalities
+
+OTP  varification, Message saved to batabase, read receipt, automatic room creation from contacts list. 
 
 ## Development server
 
+Run following command in your workspace:
+
 git clone https://github.com/ChauhanAbhinav/chat.git
 
-Run following command for dev server:-
+// client 'http://localhost:4200/
 
 cd chat
 npm install
 npm start
 
+//server  http://localhost:3000/
+
 cd server
 npm install
 npm start
  
-Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Navigate to `http://localhost:4200/`. 
 
 ## Database 
-Mongodb:- running or remote by default
-for switching change url in server>db>dbUtils.js  
 
-remoteUrl : 'mongodb+srv://<user>:<password>@cluster0-winsn.mongodb.net/test'
-  user: abhinav, pass: mongoose
-  
-localUrl :- localUrl: 'mongodb://127.0.0.1:27017'
+Mongodb:- running on remote by default
+for switching to local change url in server>db>dbUtils.js  
+
+remoteUrl : mongodb+srv://cluster0-winsn.mongodb.net/test
+
+mongo shell: mongo "mongodb+srv://cluster0-winsn.mongodb.net/test" --username abhinav
+
+mongo compass : mongodb+srv://abhinav:<password>@cluster0-winsn.mongodb.net/test
 
 DB Name: chat
-collections: Users, contacts, chatMessage
+
+collections: 
+1. users :- collection that store primary information of user i.e mobile,  country code and and name
+     eg- 
+     {
+     "_id":"5d710302e85bdf72bf3ac110",  
+     "mobile":1111111111,               
+     "countryCode":"+91",               
+     "name":"Name01"                    
+     }
+2. contacts:- added contact will be store in this collection, a room will be assigned to both users.
+    eg-
+    {
+    "_id":"5d7131acc643910edf2308ee",
+    "mobile":1111111111,
+    "contact":2222222222,
+    "contactName":"Name02",
+    "room":"22222222221111111111"
+    }
+3. chatMessage: message will be strored in this collection. query can be made by distinct room name and all the messages are stored in a array as given below.
+    {
+    "_id":"5d7215c096fab91104edeff4",
+    "room":"44444444443333333333",
+    "messages":[
+                {
+                "from":3333333333,
+                "to":"4444444444",
+                "messageId":9,
+                "message":"hi",
+                "read":true
+                },
+                {
+                "from":4444444444,
+                "to":"3333333333",
+                "messageId":1,
+                "message":"ki",
+                "read":true
+                }
+                ]
+    }
 
 ## Note:
 
