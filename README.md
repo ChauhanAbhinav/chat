@@ -43,14 +43,17 @@ DB Name: chat
 collections: 
 1. users :- collection that store primary information of user i.e mobile,  country code and and name
      eg- 
+     
      {
      "_id":"5d710302e85bdf72bf3ac110",  
      "mobile":1111111111,               
      "countryCode":"+91",               
      "name":"Name01"                    
      }
+     
 2. contacts:- added contact will be store in this collection, a room will be assigned to both users.
     eg-
+    
     {
     "_id":"5d7131acc643910edf2308ee",
     "mobile":1111111111,
@@ -59,6 +62,7 @@ collections:
     "room":"22222222221111111111"
     }
 3. chatMessage: message will be strored in this collection. query can be made by distinct room name and all the messages are stored in a array as given below.
+
     {
     "_id":"5d7215c096fab91104edeff4",
     "room":"44444444443333333333",
