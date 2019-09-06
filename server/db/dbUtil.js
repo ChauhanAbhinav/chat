@@ -5,7 +5,7 @@ let callback, db;
 // exporting the mongo
 mongo = {
 connect: (callback)=> {
-   if(!db) MongoClient.connect(dbConfig.dbUrl.localUrl,{ useNewUrlParser: true }, function(err, client){
+   if(!db) MongoClient.connect(dbConfig.dbUrl.remoteUrl,{ useNewUrlParser: true }, function(err, client){
 
     if(err) throw err;
     console.log('Mongodb connected');
@@ -20,7 +20,6 @@ connect: (callback)=> {
 },
 getDb: function(){
 
-    console.log('returned db is '+db);
     return db;
 }
 

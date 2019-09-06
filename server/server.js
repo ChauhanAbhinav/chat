@@ -49,7 +49,6 @@ socket.on('joinRoom', function(username, contact, room){
   socketTable[username].rooms[room] = {contact: contact, room: room}; // update socket table
   socket.join(room);
 
-  console.log(username + ' joined private room: ' + room);
   // check if contact is connected in socket table, if yes join the contact
   if(socketTable[contact])
   {
@@ -80,7 +79,8 @@ socket.on('deleteRoom', function(username, contact, room){
   contact = Number(contact);
   
   socket.leave(room);
-  console.log('user deleted the room: '+room);
+  
+  if(socketTable[username].rooms[room])
   delete socketTable[username].rooms[room];
   // remove contact from room also
   if(socketTable[contact])
@@ -91,6 +91,7 @@ socket.on('deleteRoom', function(username, contact, room){
        id = socketTable[contact].socketId;
        io_private.connected[id].leave(room);
        // update socket table
+ 
        delete socketTable[contact].rooms[room];
        }
     else { 
@@ -106,7 +107,6 @@ socket.on('deleteRoom', function(username, contact, room){
 socket.on('sendchat', function (user, contact, room, msg, messageId) {
   if(socketTable[user].rooms[room])
   {
-  console.log('chat recieved in room: ' + room + ' from ' + 'user');
 
   // notification update to rooms
   socket.broadcast.to(room).emit('notificationAlert', user, contact, room, msg);
@@ -140,9 +140,7 @@ socket.on('sendVisibility', function(visibility, room){
 // on user disconnection
 socket.on('disconnect', function(){
   console.log('user disconnected: '+socket.id);
-  // socket.broadcast.to(socket.room).emit('getVisibility', false);
   rooms.forEach(room => {
-    console.log('user leaved the room: '+room);
     socket.leave(room);
   });
   delete socketTable[socket.username];
