@@ -5,7 +5,7 @@ This is a chat application in which user can add users to their contact list and
 
 ## functionalities
 
-OTP  varification, Message saved to batabase, read receipt, automatic room creation from contacts list. 
+OTP  varification using Twilio, Message saved to batabase, read receipt, automatic room creation from contacts list. 
 
 ## Development server
 
